@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dragonra.smartdoor">
+    package="com.knockknock.dragonra.smartdoor">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name="com.knockknock.dragonra.smartdoor.LoginActivity" />
+        <activity android:name="com.knockknock.dragonra.smartdoor.MainActivity"></activity>
     </application>
 
 </manifest>
