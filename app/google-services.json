@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "348986344485",
+    "firebase_url": "https://if3111-smartdoor.firebaseio.com",
+    "project_id": "if3111-smartdoor",
+    "storage_bucket": "if3111-smartdoor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348986344485:android:e2549e241f50f328",
+        "android_client_info": {
+          "package_name": "com.knockknock.dragonra.smartdoor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348986344485-s3llupb8h1s3rlt3lgsflg5e4ajk7qa2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8MX8lg42P57a8FQZ8ka5xKb8RyWNQU94"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
