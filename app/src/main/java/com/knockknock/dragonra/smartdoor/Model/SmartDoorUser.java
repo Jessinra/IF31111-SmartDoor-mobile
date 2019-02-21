@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-public class User {
+public class SmartDoorUser {
     private String fullName;
     private String givenName;
     private String familyName;
@@ -12,7 +12,7 @@ public class User {
     private String userID;
     private Uri photoUri;
 
-    public User(String fullName, String givenName, String familyName, String email, String userID, Uri photoUri) {
+    public SmartDoorUser(String fullName, String givenName, String familyName, String email, String userID, Uri photoUri) {
         this.fullName = fullName;
         this.givenName = givenName;
         this.familyName = familyName;
@@ -21,9 +21,8 @@ public class User {
         this.photoUri = photoUri;
     }
 
-    public User(GoogleSignInAccount account) {
+    public SmartDoorUser(GoogleSignInAccount account) {
         this.fullName = account.getDisplayName();
-        ;
         this.givenName = account.getGivenName();
         this.familyName = account.getFamilyName();
         this.email = account.getEmail();

@@ -1,7 +1,6 @@
 package com.knockknock.dragonra.smartdoor;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.knockknock.dragonra.smartdoor.Model.SmartDoorUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,10 +28,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken()
-                .build();
+        GoogleSignInOptions.Builder gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
+        gsoBuilder.requestEmail();
+        gsoBuilder.requestIdToken(getString(R.string.FirebaseAPIKey));
+        GoogleSignInOptions gso = gsoBuilder.build();
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -69,23 +69,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Signed in successfully, show authenticated UI.
 
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            updateUI(account);
+//            TODO: update UI
+//            updateUI(account);
 
-            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
+                SmartDoorUser user = new SmartDoorUser(acct);
             }
 
         } catch (ApiException e) {
             // Signed in failed, show authenticated UI.
 
             Log.w("LoginActivity", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+//            TODO: update UI
+//            updateUI(null);
         }
 
         /*

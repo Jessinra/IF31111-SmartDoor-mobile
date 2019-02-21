@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        // User logged-in
+        // SmartDoorUser logged-in
         if (userLoggedIn(account)) {
             // TODO: create intent to dashboard
             Log.d("INTENT", "Opening dashboard");
