@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.Model;
+package com.knockknock.dragonra.smartdoor.model;
 
 import android.net.Uri;
 import android.os.Parcel;

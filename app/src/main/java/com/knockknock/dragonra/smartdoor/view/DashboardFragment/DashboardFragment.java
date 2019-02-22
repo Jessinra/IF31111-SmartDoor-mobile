@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.ui.dashboard;
+package com.knockknock.dragonra.smartdoor.view.DashboardFragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -25,7 +25,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dashboard_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
     @Override

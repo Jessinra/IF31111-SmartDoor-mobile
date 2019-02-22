@@ -1,26 +1,37 @@
 package com.knockknock.dragonra.smartdoor;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.knockknock.dragonra.smartdoor.ui.dashboard.DashboardFragment;
+import com.astuetz.PagerSlidingTabStrip;
+import com.knockknock.dragonra.smartdoor.utility.DashboardPagerAdapter;
+import com.knockknock.dragonra.smartdoor.view.DashboardFragment.HistoryFragment;
+import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment;
 
-public class DashboardActivity extends AppCompatActivity {
-
-//    TODO: create more dashboard content & fragment
+public class DashboardActivity extends AppCompatActivity
+        implements RegisterFragment.OnFragmentInteractionListener,
+        HistoryFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("ACTIVITY_START", "onCreate DashboardActivity");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_activity);
 
-        Log.d("ACTIVITY_START", "onCreate DashboardActivity");
+        // Create tab / pager handler
+        ViewPager pager = findViewById(R.id.pager);
+        pager.setAdapter(new DashboardPagerAdapter(getSupportFragmentManager()));
+        PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
+        tabs.setShouldExpand(true);
+        tabs.setViewPager(pager);
+    }
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, DashboardFragment.newInstance())
-                    .commitNow();
-        }
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // This is necessary, leave it blank
     }
 }

@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.ui.dashboard;
+package com.knockknock.dragonra.smartdoor.view.DashboardFragment;
 
 import android.arch.lifecycle.ViewModel;
 
