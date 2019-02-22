@@ -1,5 +1,6 @@
 package com.knockknock.dragonra.smartdoor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,26 +12,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("ACTIVITY_START", "onCreate MainActivity");
         super.onCreate(savedInstanceState);
 
-        Log.d("Activity", "onCreate MainActivity");
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (userSignedIn(account)) {
+            Log.d("MAIN_ACTIVITY", "Opening dashboard");
 
-        // SmartDoorUser logged-in
-        if (userLoggedIn(account)) {
-            // TODO: create intent to dashboard
-            Log.d("INTENT", "Opening dashboard");
+            Intent intent = new Intent(this, DashboardActivity.class);
+            startActivity(intent);
+            finish();
 
         } else {
-            // TODO: open google sign in page
-            Log.d("INTENT", "Opening google sign in");
+            Log.d("MAIN_ACTIVITY", "Opening google sign in");
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
-    private boolean userLoggedIn(GoogleSignInAccount account) {
+    private boolean userSignedIn(GoogleSignInAccount account) {
         return account != null;
     }
 }

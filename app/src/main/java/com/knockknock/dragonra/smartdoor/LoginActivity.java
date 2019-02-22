@@ -12,7 +12,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.knockknock.dragonra.smartdoor.Model.SmartDoorUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,13 +20,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("ACTIVITY_START", "onCreate LoginActivity");
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login_activity);
 
-        Log.d("Activity", "onCreate LoginActivity");
+        setUpGoogleSignInClient();
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        findViewById(R.id.button_sign_in).setOnClickListener(this);
+    }
+
+    private void setUpGoogleSignInClient() {
+
+        // Build GoogleSignInClientOptions
         GoogleSignInOptions.Builder gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
         gsoBuilder.requestEmail();
         gsoBuilder.requestIdToken(getString(R.string.FirebaseAPIKey));
@@ -35,26 +40,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
-                startGoogleSignIn();
+            case R.id.button_sign_in:
+                redirectGoogleSignIn();
+                break;
+            default:
                 break;
         }
     }
 
-    private void startGoogleSignIn() {
+    private void redirectGoogleSignIn() {
+        Log.d("LOGIN_ACTIVITY", "redirectGoogleSignIn");
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("LOGIN_ACTIVITY", "onActivityResult");
+
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
@@ -65,30 +74,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        Log.d("LOGIN_ACTIVITY", "handleSignInResult");
+
         try {
             // Signed in successfully, show authenticated UI.
-
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-//            TODO: update UI
-//            updateUI(account);
-
+            completedTask.getResult(ApiException.class);
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-            if (acct != null) {
-                SmartDoorUser user = new SmartDoorUser(acct);
+            if (userSignedIn(acct)) {
+                redirectToDashboard();
             }
 
         } catch (ApiException e) {
-            // Signed in failed, show authenticated UI.
-
-            Log.w("LoginActivity", "signInResult:failed code=" + e.getStatusCode());
-//            TODO: update UI
-//            updateUI(null);
+            Log.w("LOGIN_ACTIVITY", "signInResult:failed code=" + e.getStatusCode());
         }
+    }
 
-        /*
-        NOTE: You can also get the user's email address with getEmail, the user's Google ID (for client-side use)
-        with getId, and an ID token for the user with getIdToken. If you need to pass the currently signed-in user
-        to a backend server, send the ID token to your backend server and validate the token on the server.
-        */
+    private void redirectToDashboard() {
+        Intent intent = new Intent(this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private boolean userSignedIn(GoogleSignInAccount acct) {
+        return acct != null;
     }
 }

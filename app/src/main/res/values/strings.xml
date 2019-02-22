@@ -14,5 +14,10 @@
     </string>
 
     <string name="default_notification_channel_id">"Smart_door_notification"</string>
-    <string name="FirebaseAPIKey">AIzaSyDT6yuH5AfikDgBjQ3slpYu7gRkAa1idhM</string>
+    <string name="FirebaseAPIKey">348986344485-s3llupb8h1s3rlt3lgsflg5e4ajk7qa2.apps.googleusercontent.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_sign_out">Sign Out</string>
+    <string name="description_login_bg">login page background</string>
 </resources>
