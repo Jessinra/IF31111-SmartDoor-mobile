@@ -1,10 +1,10 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
-const functions = require('firebase-functions');
 
-// The Firebase Admin SDK to access the Firebase Realtime Database.
+const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+
+/*====================================== Dummy & Tutorial function =====================================================*/
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
     response.send("Hello from Firebase!");
@@ -39,3 +39,56 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
         // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
         return snapshot.ref.parent.child('uppercase').set(uppercase);
     });
+
+exports.testNotification = functions.https.onRequest((req, res) => {
+
+    // This registration token comes from the client FCM SDKs.
+    var adminToken = "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt";
+
+    var message = {
+        data: {       
+            score: '850',
+            time: '2:45'
+        },
+        notification: {
+            title: "Notification title",
+            body: "Notification text content",
+        },
+        token: adminToken
+    };
+
+    // Send a message to the device corresponding to the provided
+    // registration token.
+    admin.messaging().send(message);
+    res.send("Message sent!");
+});
+
+/*===========================================================================================*/
+/*===========================================================================================*/
+/*===========================================================================================*/
+
+exports.sendNotificationTemplate = functions.https.onRequest((req, res) => {
+
+    // TODO:  (jessin) search for FIREBASE_TOKEN at debug to get this. this one is mine 
+    var adminToken = "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt";
+
+    // TODO: Modify what data you need to send 
+    var message = {
+        data: {
+
+            // Notification data
+            SystemTitle: "Notification title",
+            SistemText: "Notification text content",
+
+            // Other payload data
+            score: '850',
+            time: '2:45'
+        },
+        token: adminToken
+    };
+
+    // Sending the message
+    admin.messaging().send(message);
+    res.send("Message sent!");
+});
+

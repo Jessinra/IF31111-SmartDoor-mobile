@@ -32,12 +32,13 @@
             android:name=".LoginActivity"
             android:exported="true" />
 
-        <!-- TODO: create service that extends FirebaseMessagingService -->
-        <!-- <service android:name=".java.MyFirebaseMessagingService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+        <service
+            android:name=".utility.SmartDoorFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

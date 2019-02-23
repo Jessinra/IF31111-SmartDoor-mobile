@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.knockknock.dragonra.smartdoor.utility.NotificationService;
+import com.knockknock.dragonra.smartdoor.utility.SmartDoorFirebaseMessagingService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,9 +17,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ACTIVITY_START", "onCreate MainActivity");
         super.onCreate(savedInstanceState);
 
+        NotificationService.createNotificationChannel(this);
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (userSignedIn(account)) {
             Log.d("MAIN_ACTIVITY", "Opening dashboard");
+
+            SmartDoorFirebaseMessagingService.logFirebaseToken();
 
             Intent intent = new Intent(this, DashboardActivity.class);
             startActivity(intent);
