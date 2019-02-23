@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "348986344485-kraa81evur9lqrbksguh3gb3o12tt0rl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knockknock.dragonra.smartdoor",
+            "certificate_hash": "867657d08f47e653fb5348fef3ee1823889cd464"
+          }
+        },
+        {
           "client_id": "348986344485-s3llupb8h1s3rlt3lgsflg5e4ajk7qa2.apps.googleusercontent.com",
           "client_type": 3
         }
