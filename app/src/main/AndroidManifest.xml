@@ -32,7 +32,8 @@
             android:name=".LoginActivity"
             android:exported="true" />
 
-        <activity android:name=".AddToDatabase"
+        <activity
+            android:name=".utility.RegisterUserDatabaseClient"
             android:label = "Add to Database"
             android:parentActivityName=".MainActivity">
             <meta-data

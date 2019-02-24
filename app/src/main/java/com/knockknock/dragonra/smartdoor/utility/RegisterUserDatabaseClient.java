@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor;
+package com.knockknock.dragonra.smartdoor.utility;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.UserMember;
+import com.knockknock.dragonra.smartdoor.model.UserMember;
 
-public class AddToDatabase extends AppCompatActivity {
+public class RegisterUserDatabaseClient extends AppCompatActivity {
 
-    private static final String TAG = "AddToDatabase";
+    private static final String TAG = "RegisterUserDBClient";
 
     private Button mAddToDb;
     private EditText mNewName;
