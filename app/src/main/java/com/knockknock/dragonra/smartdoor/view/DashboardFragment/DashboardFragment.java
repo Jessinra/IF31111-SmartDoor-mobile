@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.knockknock.dragonra.smartdoor.LogoutActivity;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.model.dummy.DummyBuilding;
-import com.knockknock.dragonra.smartdoor.view.Component.CardViewAdaptor;
+import com.knockknock.dragonra.smartdoor.model.dummy.DummyBuildingData;
+import com.knockknock.dragonra.smartdoor.view.Adapter.CardViewAdapter;
 
 import java.util.ArrayList;
 
@@ -56,9 +56,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         View dashboardChildView;
 
         // TODO: example of handling data payload
-        ArrayList<DummyBuilding> buildings = DummyBuilding.createMockBuildings(10);
+        ArrayList<DummyBuildingData> buildings = DummyBuildingData.createMockBuildings(10);
         int j = 0;
-        DummyBuilding building;
+        DummyBuildingData building;
 
         // Iterate through all cardView
         for (int i = 0; i < dashboardCard.getChildCount(); i++) {
@@ -70,9 +70,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 j++;
 
                 // TODO: do something with the card view !
-                CardViewAdaptor.setText(dashboardChildView, building.getName());
-                CardViewAdaptor.setLockState(dashboardChildView, building.isLocked());
-//                CardViewAdaptor.setInvisible(dashboardChildView);
+                CardViewAdapter.setText(dashboardChildView, building.getName());
+                CardViewAdapter.setLockState(dashboardChildView, building.isLocked());
+//                CardViewAdapter.setInvisible(dashboardChildView);
 
             }
         }

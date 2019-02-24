@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.view.Component;
+package com.knockknock.dragonra.smartdoor.view.Adapter;
 
 import android.net.Uri;
 import android.view.View;
@@ -10,7 +10,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
-public class CardViewAdaptor {
+public class CardViewAdapter {
 
 
     public static void setInvisible(View view) {
