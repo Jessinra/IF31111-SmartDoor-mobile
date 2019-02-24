@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "348986344485-vof95smvhrji89cqnrpsepdudgiahje3.apps.googleusercontent.com",
+          "client_id": "348986344485-c8rik2l8gg19m6gv82uumlhms258859l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.knockknock.dragonra.smartdoor",
-            "certificate_hash": "95208e913e9a6bce7ecc633525a3385a7e136f20"
+            "certificate_hash": "ad9f6eeeaf2c99f3481b381b561c69e281747e77"
           }
         },
         {
@@ -28,14 +28,6 @@
           "android_info": {
             "package_name": "com.knockknock.dragonra.smartdoor",
             "certificate_hash": "867657d08f47e653fb5348fef3ee1823889cd464"
-          }
-        },
-        {
-          "client_id": "348986344485-c8rik2l8gg19m6gv82uumlhms258859l.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.knockknock.dragonra.smartdoor",
-            "certificate_hash": "ad9f6eeeaf2c99f3481b381b561c69e281747e77"
           }
         },
         {
