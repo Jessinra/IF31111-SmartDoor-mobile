@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.utility;
+package com.knockknock.dragonra.smartdoor.view.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,11 +8,11 @@ import com.knockknock.dragonra.smartdoor.view.DashboardFragment.DashboardFragmen
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment;
 
-public class DashboardPagerAdapter extends FragmentStatePagerAdapter {
+public class DashboardPageAdapter extends FragmentStatePagerAdapter {
 
     private String[] titles = {"Register", "Home", "History"};
 
-    public DashboardPagerAdapter(FragmentManager fm) {
+    public DashboardPageAdapter(FragmentManager fm) {
         super(fm);
     }
 

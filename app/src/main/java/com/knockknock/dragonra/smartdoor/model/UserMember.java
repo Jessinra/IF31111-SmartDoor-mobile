@@ -1,14 +1,16 @@
-package com.knockknock.dragonra.smartdoor;
+package com.knockknock.dragonra.smartdoor.model;
 
 public class UserMember {
     private String name;
     private String pattern;
 
-    public UserMember(){
+    // TODO: use this as record container when fetching from DB
+
+    public UserMember() {
 
     }
 
-    public UserMember(String name, String pattern){
+    public UserMember(String name, String pattern) {
         this.name = name;
         this.pattern = pattern;
     }

@@ -1,4 +1,4 @@
-
+const escapeHtml = require('escape-html');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
@@ -46,7 +46,7 @@ exports.testNotification = functions.https.onRequest((req, res) => {
     var adminToken = "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt";
 
     var message = {
-        data: {       
+        data: {
             score: '850',
             time: '2:45'
         },
@@ -92,3 +92,80 @@ exports.sendNotificationTemplate = functions.https.onRequest((req, res) => {
     res.send("Message sent!");
 });
 
+exports.history = functions.https.onRequest((req, res) => {
+
+    var userToken = req.body.userToken;
+
+    // dummy 
+    var message = {
+
+        userToken: userToken,
+        history: [
+            {
+                date: "22/03/2019",
+                time: "05:39",
+                building: "house1",
+            },
+            {
+                date: "23/03/2019",
+                time: "05:39",
+                building: "house2",
+            },
+            {
+                date: "24/03/2019",
+                time: "05:39",
+                building: "house3",
+            },
+            {
+                date: "25/03/2019",
+                time: "05:39",
+                building: "house4",
+            },
+            {
+                date: "26/03/2019",
+                time: "05:39",
+                building: "house5",
+            },
+        ]
+    };
+
+
+    // dummy 
+    var message2 = {
+
+        userToken: userToken,
+        history: [
+            {
+                date: "22/03/2019",
+                time: "05:39",
+                building: "office1",
+            },
+            {
+                date: "23/03/2019",
+                time: "05:39",
+                building: "office2",
+            },
+            {
+                date: "24/03/2019",
+                time: "05:39",
+                building: "office3",
+            },
+            {
+                date: "25/03/2019",
+                time: "05:39",
+                building: "office4",
+            },
+            {
+                date: "26/03/2019",
+                time: "05:39",
+                building: "office5",
+            },
+        ]
+    };
+
+    if (userToken === "update") {
+        res.send(message2);
+    }
+
+    res.send(message);
+});

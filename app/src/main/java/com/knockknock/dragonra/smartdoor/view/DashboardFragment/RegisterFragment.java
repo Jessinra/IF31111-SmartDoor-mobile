@@ -20,18 +20,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.knockknock.dragonra.smartdoor.AddToDatabase;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.UserMember;
+import com.knockknock.dragonra.smartdoor.model.UserMember;
+import com.knockknock.dragonra.smartdoor.utility.RegisterUserDatabaseClient;
 
 import java.util.LinkedList;
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * {@link RegisterFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RegisterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RegisterFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -101,7 +95,8 @@ public class RegisterFragment extends Fragment {
 //                UserMember user = new UserMember("user"+count, "1");
 //                DatabaseReference myRef = mDatabase.getReference();
 //                myRef.child("member").child(""+count).setValue(user);
-                Intent intent = new Intent(getContext(), AddToDatabase.class);
+
+                Intent intent = new Intent(getContext(), RegisterUserDatabaseClient.class);
                 startActivity(intent);
             }
         });
