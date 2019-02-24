@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.knockknock.dragonra.smartdoor.AddToDatabase;
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.model.UserMember;
 import com.knockknock.dragonra.smartdoor.utility.RegisterUserDatabaseClient;
@@ -95,8 +94,8 @@ public class RegisterFragment extends Fragment {
 //                UserMember user = new UserMember("user"+count, "1");
 //                DatabaseReference myRef = mDatabase.getReference();
 //                myRef.child("member").child(""+count).setValue(user);
-
                 Intent intent = new Intent(getContext(), RegisterUserDatabaseClient.class);
+
                 startActivity(intent);
             }
         });
