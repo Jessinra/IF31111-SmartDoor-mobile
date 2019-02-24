@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
             SmartDoorFirebaseMessagingService.logFirebaseToken();
 
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, DashboardActivity.class);
             startActivity(intent);
             finish();
 
