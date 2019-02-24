@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.knockknock.dragonra.smartdoor.utility.DashboardPagerAdapter;
+import com.knockknock.dragonra.smartdoor.view.Adapter.DashboardPageAdapter;
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment;
 
@@ -24,7 +24,7 @@ public class DashboardActivity extends AppCompatActivity
 
         // Create tab / pager handler
         ViewPager pager = findViewById(R.id.pager);
-        pager.setAdapter(new DashboardPagerAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new DashboardPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
