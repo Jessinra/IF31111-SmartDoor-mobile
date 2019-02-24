@@ -1,6 +1,6 @@
 package com.knockknock.dragonra.smartdoor.view.DashboardFragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,15 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.firebase.ui.auth.data.model.User;
-import com.google.api.LogDescriptor;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.knockknock.dragonra.smartdoor.AddToDatabase;
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.UserMember;
 
@@ -99,10 +97,12 @@ public class RegisterFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count++;
-                UserMember user = new UserMember("user"+count, "1");
-                DatabaseReference myRef = mDatabase.getReference();
-                myRef.child("member").child(""+count).setValue(user);
+//                count++;
+//                UserMember user = new UserMember("user"+count, "1");
+//                DatabaseReference myRef = mDatabase.getReference();
+//                myRef.child("member").child(""+count).setValue(user);
+                Intent intent = new Intent(getContext(), AddToDatabase.class);
+                startActivity(intent);
             }
         });
 

@@ -32,6 +32,14 @@
             android:name=".LoginActivity"
             android:exported="true" />
 
+        <activity android:name=".AddToDatabase"
+            android:label = "Add to Database"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    ".MainActivity" />
+        </activity>
         <service
             android:name=".utility.SmartDoorFirebaseMessagingService"
             android:exported="false">
