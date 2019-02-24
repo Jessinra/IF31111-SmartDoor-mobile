@@ -23,9 +23,4 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="channel_name">Smart Door</string>
     <string name="channel_description">Smart door for your life!</string>
-    <string name="setting">Setting</string>
-    <string name="back_button">Back</string>
-    <string name="brightness">Brightness</string>
-    <string name="notification">Notification</string>
-    <string name="pop_up_notification">Pop up notification</string>
 </resources>
