@@ -10,8 +10,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.knockknock.dragonra.smartdoor.utility.NotificationService;
 import com.knockknock.dragonra.smartdoor.utility.SmartDoorFirebaseMessagingService;
 
-import java.util.Set;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             SmartDoorFirebaseMessagingService.logFirebaseToken();
 
-            Intent intent = new Intent(this, SettingActivity.class);
+            Intent intent = new Intent(this, DashboardActivity.class);
             startActivity(intent);
             finish();
 
