@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +16,6 @@ import android.view.ViewGroup;
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.utility.HistoryManager;
 import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryViewAdapter;
-
-import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
 
@@ -49,42 +48,25 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+
+        SwipeRefreshLayout pullToRefresh = findViewById(R.id.history_swipe_refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                historyManager.fetchNewData("update");
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
+
         recyclerView = view.findViewById(R.id.history_recycle_view);
-        recyclerView.setHasFixedSize(true);
+
+        HistoryManager historyManager = new HistoryManager(recyclerView, "123123");
+        historyManager.setupHistoryPage(view.getContext());
 
 
-        /* ================================================================================== */
-        /* ====================   Example to fill history page ============================== */
-        /* ================================================================================== */
 
-        // 1. dataset
-        ArrayList<String> dummyDataset = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            dummyDataset.add("22 / 02 / 2019      04:30      Home " + Integer.toString(i));
-        }
-
-        HistoryManager historyManager = new HistoryManager(recyclerView);
-        historyManager.setupHistoryPage(view.getContext(), dummyDataset);
-
-//        // 2. Setup page view
-//        layoutManager = new LinearLayoutManager(view.getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        // specify an adapter (see also next example)
-//        mAdapter = new HistoryViewAdapter(dummyDataset);
-//        recyclerView.setAdapter(mAdapter);
-        for (int i = 0; i < 50; i++) {
-            dummyDataset.add("22 / 02 / 2019      04:30      Office " + Integer.toString(i));
-        }
-        historyManager.notifyItemRangeChanged(50, 50);
-
-        for (int i = 25; i < 50; i++) {
-            dummyDataset.set(i, "06 / 02 / 2019      07:37      Laboratory " + Integer.toString(i));
-        }
-        historyManager.notifyItemRangeChanged(25, 25);
-
-
-        historyManager.fetchNewData();
 
         /* ================================================================================== */
         /* ================================================================================== */

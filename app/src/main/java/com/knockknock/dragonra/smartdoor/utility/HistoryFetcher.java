@@ -2,15 +2,22 @@ package com.knockknock.dragonra.smartdoor.utility;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
+import com.google.gson.Gson;
+import com.knockknock.dragonra.smartdoor.model.HistoryFetchResult;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class HistoryFetcher extends AsyncTask<String, String, String> {
+public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult> {
 
-    public HistoryFetcher() {
+    private WeakReference<RecyclerView> recyclerView;
+
+    public HistoryFetcher(RecyclerView recyclerView) {
         //set context variables if required
+        this.recyclerView = new WeakReference<>(recyclerView);
     }
 
     @Override
@@ -19,7 +26,7 @@ public class HistoryFetcher extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected HistoryFetchResult doInBackground(String... params) {
         // Create POST request to server
 
         HttpURLConnectionManager connectionManager = new HttpURLConnectionManager();
@@ -30,7 +37,7 @@ public class HistoryFetcher extends AsyncTask<String, String, String> {
         try {
             String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/history";
             String response = connectionManager.sendPost(fetchHistoryURL, postParams);
-            Log.d("HISTORY_FETCHER", response);
+            return new Gson().fromJson(response, HistoryFetchResult.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,4 +46,15 @@ public class HistoryFetcher extends AsyncTask<String, String, String> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(HistoryFetchResult historyFetchResult) {
+        super.onPostExecute(historyFetchResult);
+
+        if (recyclerView.get() != null) {
+            HistoryManager.updateHistoryPage(recyclerView.get(), historyFetchResult);
+        }
+    }
 }
+
+
+

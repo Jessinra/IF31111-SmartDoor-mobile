@@ -129,5 +129,43 @@ exports.history = functions.https.onRequest((req, res) => {
         ]
     };
 
-        res.send(message);
+
+    // dummy 
+    var message2 = {
+
+        userToken: userToken,
+        history: [
+            {
+                date: "22/03/2019",
+                time: "05:39",
+                building: "office1",
+            },
+            {
+                date: "23/03/2019",
+                time: "05:39",
+                building: "office2",
+            },
+            {
+                date: "24/03/2019",
+                time: "05:39",
+                building: "office3",
+            },
+            {
+                date: "25/03/2019",
+                time: "05:39",
+                building: "office4",
+            },
+            {
+                date: "26/03/2019",
+                time: "05:39",
+                building: "office5",
+            },
+        ]
+    };
+
+    if (userToken === "update") {
+        res.send(message2);
+    }
+
+    res.send(message);
 });

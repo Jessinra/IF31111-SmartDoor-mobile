@@ -50,6 +50,7 @@ public class HttpURLConnectionManager {
 
     @NonNull
     private String serializePostParams(ArrayList<Pair<String, String>> params) {
+
         StringBuilder postParamsBuilder = new StringBuilder();
         for (Pair<String, String> param : params) {
             postParamsBuilder.append(param.first).append("=").append(param.second).append("&");

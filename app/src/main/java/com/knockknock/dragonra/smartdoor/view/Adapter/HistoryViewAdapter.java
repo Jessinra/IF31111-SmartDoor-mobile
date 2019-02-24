@@ -48,6 +48,7 @@ public class HistoryViewAdapter extends RecyclerView.Adapter<HistoryViewAdapter.
         return historyData.size();
     }
 
+
     /* ============================================================= */
     /*                      History view holder                      */
     /* ============================================================= */

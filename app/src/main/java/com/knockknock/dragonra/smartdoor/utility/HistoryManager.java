@@ -3,49 +3,52 @@ package com.knockknock.dragonra.smartdoor.utility;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.knockknock.dragonra.smartdoor.R;
+import com.knockknock.dragonra.smartdoor.model.HistoryFetchResult;
 import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryViewAdapter;
-
-import java.util.ArrayList;
 
 public class HistoryManager {
 
     private final RecyclerView recyclerView;
-    private final HistoryFetcher historyFetcher;
-    private HistoryViewAdapter historyViewAdapter;
+    private static HistoryViewAdapter historyViewAdapter;
 
-    public HistoryManager(RecyclerView recyclerView) {
+    private static String userToken;
+
+    public HistoryManager(RecyclerView recyclerView, String userToken) {
         this.recyclerView = recyclerView;
-        this.historyFetcher = new HistoryFetcher();
+        HistoryManager.userToken = userToken;
     }
 
-    public HistoryManager(View view) {
+    public HistoryManager(View view, String userToken) {
         recyclerView = view.findViewById(R.id.history_recycle_view);
-        this.historyFetcher = new HistoryFetcher();
+        HistoryManager.userToken = userToken;
     }
 
-    public HistoryManager(View view, int recyclerViewId) {
+    public HistoryManager(View view, int recyclerViewId, String userToken) {
         recyclerView = view.findViewById(recyclerViewId);
-        this.historyFetcher = new HistoryFetcher();
+        HistoryManager.userToken = userToken;
     }
 
-    public ArrayList<String> fetchNewData() {
-
-        historyFetcher.execute("userToken", "1234512345");
-        return null;
-    }
-
-    public void setupHistoryPage(Context context, ArrayList<String> data) {
+    public void setupHistoryPage(Context context) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        historyViewAdapter = new HistoryViewAdapter(data);
-        recyclerView.setAdapter(historyViewAdapter);
+        fetchNewData(userToken);
     }
 
-    public void notifyItemRangeChanged(int positionStart, int itemCount) {
-        historyViewAdapter.notifyItemRangeChanged(positionStart, itemCount);
+    public void fetchNewData(String userToken) {
+        // Create new to keep update the recyclerView
+        new HistoryFetcher(recyclerView).execute("userToken", userToken);
+    }
+
+    public static void updateHistoryPage(RecyclerView recyclerView, HistoryFetchResult historyFetchResult) {
+
+        Log.d("HISTORY", "updateHistoryPage");
+
+        historyViewAdapter = new HistoryViewAdapter(historyFetchResult.toStringArray());
+        recyclerView.setAdapter(historyViewAdapter);
     }
 }
