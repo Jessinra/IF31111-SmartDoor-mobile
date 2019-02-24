@@ -3,16 +3,26 @@ package com.knockknock.dragonra.smartdoor.view.DashboardFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
+import com.google.api.LogDescriptor;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.knockknock.dragonra.smartdoor.R;
+import com.knockknock.dragonra.smartdoor.UserMember;
 
 import java.util.LinkedList;
 
@@ -28,20 +38,24 @@ public class RegisterFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RegMemAdapter mAdapter;
-    private final LinkedList<String> mWordList = new LinkedList<>();
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private static LinkedList<String> mWordList = new LinkedList<>();
+    private int count;
+    private static final String TAG = "RegisterFragment";
     public RegisterFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
-        for (int i = 0; i < 20; i++) {
-            mWordList.addLast("Word " + i);
-        }
+        Log.wtf(TAG, "onCreateView: HALO");
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
@@ -53,8 +67,36 @@ public class RegisterFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext()));
 
-        // Create an adapter and supply the data to be displayed.
-        mAdapter = new RegMemAdapter(getActivity(), mWordList);
+
+        DatabaseReference myRef = mDatabase.getReference();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.wtf(TAG, "Hi im here");
+                count = 0;
+                mWordList.clear();
+                for (DataSnapshot ds : dataSnapshot.child("member").getChildren()){
+                    count++;
+                    Log.wtf(TAG, "total"+count);
+
+//                    UserMember user = new UserMember();
+//                    user.setName(ds.getValue(UserMember.class).getName());
+                    mWordList.addLast(ds.getValue(UserMember.class).getName());
+                }
+                for (int i = 0; i < count; i++) {
+                    Log.wtf(TAG, "string"+mWordList.get(i));
+                }
+                mAdapter = new RegMemAdapter(getActivity(), mWordList);
+                // Connect the adapter with the RecyclerView.
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
@@ -62,19 +104,21 @@ public class RegisterFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int wordListSize = mWordList.size();
-                // Add a new word to the wordList.
-                mWordList.addLast("+ Word " + wordListSize);
-                // Notify the adapter, that the data has changed.
-                mRecyclerView.getAdapter().notifyItemInserted(wordListSize);
-                // Scroll to the bottom.
-                mRecyclerView.smoothScrollToPosition(wordListSize);
+                count++;
+                UserMember user = new UserMember("user"+count, "1");
+                DatabaseReference myRef = mDatabase.getReference();
+                myRef.child("member").child(""+count).setValue(user);
             }
         });
 
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
