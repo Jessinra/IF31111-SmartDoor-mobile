@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,11 @@ import android.view.ViewGroup;
 
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.utility.HistoryManager;
-import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryViewAdapter;
 
 public class HistoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private HistoryViewAdapter mAdapter;
+    private SwipeRefreshLayout pullToRefresh;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -49,27 +45,24 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        // Set up the history page
+        RecyclerView recyclerView = view.findViewById(R.id.history_recycle_view);
 
-        SwipeRefreshLayout pullToRefresh = findViewById(R.id.history_swipe_refresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                historyManager.fetchNewData("update");
-                pullToRefresh.setRefreshing(false);
-            }
-        });
-
-
-        recyclerView = view.findViewById(R.id.history_recycle_view);
-
+        // TODO: use actual userToken
         HistoryManager historyManager = new HistoryManager(recyclerView, "123123");
         historyManager.setupHistoryPage(view.getContext());
 
+        // Set the pull to refresh
+        pullToRefresh = view.findViewById(R.id.history_swipe_refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
-
-
-        /* ================================================================================== */
-        /* ================================================================================== */
+                // TODO: Remove "update" -> CHANGE IT TO userToken, THIS FOR DUMMY PURPOSE ONLY
+                HistoryManager.fetchNewData("update");
+                pullToRefresh.setRefreshing(false);
+            }
+        });
     }
 
 
