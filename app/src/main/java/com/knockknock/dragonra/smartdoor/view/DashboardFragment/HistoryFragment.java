@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.knockknock.dragonra.smartdoor.R;
+import com.knockknock.dragonra.smartdoor.utility.HistoryManager;
 import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryViewAdapter;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class HistoryFragment extends Fragment {
         recyclerView = view.findViewById(R.id.history_recycle_view);
         recyclerView.setHasFixedSize(true);
 
+
         /* ================================================================================== */
         /* ====================   Example to fill history page ============================== */
         /* ================================================================================== */
@@ -61,23 +63,28 @@ public class HistoryFragment extends Fragment {
             dummyDataset.add("22 / 02 / 2019      04:30      Home " + Integer.toString(i));
         }
 
-        // 2. Setup page view
-        layoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        HistoryManager historyManager = new HistoryManager(recyclerView);
+        historyManager.setupHistoryPage(view.getContext(), dummyDataset);
 
-        // specify an adapter (see also next example)
-        mAdapter = new HistoryViewAdapter(dummyDataset);
-        recyclerView.setAdapter(mAdapter);
-
+//        // 2. Setup page view
+//        layoutManager = new LinearLayoutManager(view.getContext());
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        // specify an adapter (see also next example)
+//        mAdapter = new HistoryViewAdapter(dummyDataset);
+//        recyclerView.setAdapter(mAdapter);
         for (int i = 0; i < 50; i++) {
             dummyDataset.add("22 / 02 / 2019      04:30      Office " + Integer.toString(i));
         }
-        mAdapter.notifyItemRangeChanged(50, 50);
+        historyManager.notifyItemRangeChanged(50, 50);
 
         for (int i = 25; i < 50; i++) {
             dummyDataset.set(i, "06 / 02 / 2019      07:37      Laboratory " + Integer.toString(i));
         }
-        mAdapter.notifyItemRangeChanged(25, 25);
+        historyManager.notifyItemRangeChanged(25, 25);
+
+
+        historyManager.fetchNewData();
 
         /* ================================================================================== */
         /* ================================================================================== */

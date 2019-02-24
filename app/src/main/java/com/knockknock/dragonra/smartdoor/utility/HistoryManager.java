@@ -14,6 +14,7 @@ public class HistoryManager {
 
     private final RecyclerView recyclerView;
     private final HistoryFetcher historyFetcher;
+    private HistoryViewAdapter historyViewAdapter;
 
     public HistoryManager(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
@@ -39,10 +40,12 @@ public class HistoryManager {
     public void setupHistoryPage(Context context, ArrayList<String> data) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new HistoryViewAdapter(data));
+
+        historyViewAdapter = new HistoryViewAdapter(data);
+        recyclerView.setAdapter(historyViewAdapter);
     }
 
-    public void modifyHistoryPage() {
-
+    public void notifyItemRangeChanged(int positionStart, int itemCount) {
+        historyViewAdapter.notifyItemRangeChanged(positionStart, itemCount);
     }
 }
