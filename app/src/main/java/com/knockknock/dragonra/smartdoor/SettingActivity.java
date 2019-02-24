@@ -12,10 +12,8 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.prefs.PreferenceChangeEvent;
-
 public class SettingActivity extends AppCompatActivity {
-    public static final String PREFS_NAME = "MyPreferences";
+
     SeekBar seekBar;
     Switch aSwitch;
     boolean success = false;
@@ -27,24 +25,19 @@ public class SettingActivity extends AppCompatActivity {
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(60);
-
-        final SharedPreferences mSetting = getSharedPreferences(PREFS_NAME, 0);
-        int brightness = mSetting.getInt("brightness", getBrightness());
-
-        seekBar.setProgress(brightness);
-        setBrightness(brightness);
+        seekBar.setProgress(getBrightness());
         getPermission();
+
+        aSwitch =  (Switch) findViewById(R.id.notificationSwitch);
+        Boolean switchState = aSwitch.isChecked();
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser && success){
-                    setBrightness(progress);
-                    SharedPreferences.Editor editor = mSetting.edit();
-                    editor.putInt("brightness",progress);
-                    editor.apply();
-                }
+                    if (fromUser && success){
+                        setBrightness(progress);
+                    }
             }
 
             @Override
@@ -105,7 +98,7 @@ public class SettingActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Permission not granted 2", Toast.LENGTH_SHORT).show();
                 }
-            }
+           }
         }
     }
 }
