@@ -59,7 +59,7 @@ public class HistoryFragment extends Fragment {
             public void onRefresh() {
 
                 // TODO: Remove "update" -> CHANGE IT TO userToken, THIS FOR DUMMY PURPOSE ONLY
-                HistoryManager.fetchNewData("update");
+                HistoryManager.fetchHistoryData("update");
                 pullToRefresh.setRefreshing(false);
             }
         });

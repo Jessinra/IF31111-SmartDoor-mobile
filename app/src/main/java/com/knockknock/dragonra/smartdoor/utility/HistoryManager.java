@@ -28,11 +28,11 @@ public class HistoryManager {
 
         recyclerView.get().setHasFixedSize(true);
         recyclerView.get().setLayoutManager(new LinearLayoutManager(context));
-        fetchNewData(userToken);
+        fetchHistoryData(userToken);
     }
 
-    public static void fetchNewData(String userToken) {
-        Log.d("HISTORY", "fetchNewData");
+    public static void fetchHistoryData(String userToken) {
+        Log.d("HISTORY", "fetchHistoryData");
         if (recyclerView.get() == null) {
             return;
         }

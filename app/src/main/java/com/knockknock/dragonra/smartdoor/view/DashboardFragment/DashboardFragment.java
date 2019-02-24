@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,7 @@ import android.view.ViewGroup;
 
 import com.knockknock.dragonra.smartdoor.LogoutActivity;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.model.dummy.DummyBuildingData;
-import com.knockknock.dragonra.smartdoor.view.Adapter.CardViewAdapter;
-
-import java.util.ArrayList;
+import com.knockknock.dragonra.smartdoor.utility.DashboardManager;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {
 
@@ -46,36 +42,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         view.findViewById(R.id.button_sign_out).setOnClickListener(this);
-
-        modifyCardView(view);
-    }
-
-    private void modifyCardView(@NonNull View view) {
-
-        ViewGroup dashboardCard = view.findViewById(R.id.dashboard);
-        View dashboardChildView;
-
-        // TODO: example of handling data payload
-        ArrayList<DummyBuildingData> buildings = DummyBuildingData.createMockBuildings(10);
-        int j = 0;
-        DummyBuildingData building;
-
-        // Iterate through all cardView
-        for (int i = 0; i < dashboardCard.getChildCount(); i++) {
-            dashboardChildView = dashboardCard.getChildAt(i);
-            if (dashboardChildView instanceof CardView) {
-
-                // Pick the dummy data
-                building = buildings.get(j);
-                j++;
-
-                // TODO: do something with the card view !
-                CardViewAdapter.setText(dashboardChildView, building.getName());
-                CardViewAdapter.setLockState(dashboardChildView, building.isLocked());
-//                CardViewAdapter.setInvisible(dashboardChildView);
-
-            }
-        }
+        DashboardManager.fetchDashboard(view, "1234512345");
     }
 
     @Override

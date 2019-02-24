@@ -169,3 +169,36 @@ exports.history = functions.https.onRequest((req, res) => {
 
     res.send(message);
 });
+
+
+exports.dashboard = functions.https.onRequest((req, res) => {
+
+    var userToken = req.body.userToken;
+
+    // dummy 
+    var message = {
+        buildings: [
+            {
+                buildingName: "Home",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office 2",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office 3",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office 4",
+                buildingLockState: false,
+            },
+        ]
+    };
+    res.send(message);
+});
