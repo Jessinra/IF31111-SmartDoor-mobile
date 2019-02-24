@@ -32,6 +32,7 @@
             android:name=".LoginActivity"
             android:exported="true" />
 
+
         <activity
             android:name=".utility.RegisterUserDatabaseClient"
             android:label = "Add to Database"

@@ -95,6 +95,7 @@ public class RegisterFragment extends Fragment {
 //                DatabaseReference myRef = mDatabase.getReference();
 //                myRef.child("member").child(""+count).setValue(user);
                 Intent intent = new Intent(getContext(), RegisterUserDatabaseClient.class);
+
                 startActivity(intent);
             }
         });

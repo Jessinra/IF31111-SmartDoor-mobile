@@ -17,6 +17,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.model.UserMember;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RegisterUserDatabaseClient extends AppCompatActivity {
 
     private static final String TAG = "RegisterUserDBClient";
@@ -37,31 +41,17 @@ public class RegisterUserDatabaseClient extends AppCompatActivity {
 
         myRef = mDatabase.getReference();
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.wtf(TAG, "Hi im here");
-                count = 0;
-                for (DataSnapshot ds : dataSnapshot.child("member").getChildren()) {
-                    count++;
-                    Log.wtf(TAG, "total" + count);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         mAddToDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: add new user");
+
                 String name = mNewName.getText().toString();
-                count++;
+                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date date = new Date();
+                String strDate = dateFormat.format(date);
                 UserMember user = new UserMember(name, "1");
-                myRef.child("member").child(""+count).setValue(user);
+                myRef.child("member").child(""+strDate).setValue(user);
                 finish();
             }
         });
