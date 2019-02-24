@@ -42,16 +42,11 @@ public class RegisterFragment extends Fragment {
     private static LinkedList<String> mWordList = new LinkedList<>();
     private int count;
     private static final String TAG = "RegisterFragment";
+
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,12 +108,7 @@ public class RegisterFragment extends Fragment {
 
         return rootView;
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
+    
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
