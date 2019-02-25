@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     public void onClick(View v) {
 
         // For all cardView
-        if (v.getId() >= R.id.card_view01 || v.getId() <= R.id.card_view10) {
+        if (v.getId() >= R.id.card_view01 && v.getId() <= R.id.card_view10) {
             int card_num = v.getId() - R.id.card_view01 + 1;
             showNoticeDialog(card_num);
         }

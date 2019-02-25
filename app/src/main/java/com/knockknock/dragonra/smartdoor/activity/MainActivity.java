@@ -1,7 +1,10 @@
 package com.knockknock.dragonra.smartdoor.activity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,11 +15,27 @@ import com.knockknock.dragonra.smartdoor.controller.Services.SmartDoorFirebaseMe
 
 public class MainActivity extends AppCompatActivity {
 
+    private void setupWritePermission() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.System.canWrite(this)) {
+                return;
+            }
+
+            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            intent.setData(Uri.parse("package:" + MainActivity.this.getPackageName()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("ACTIVITY_START", "onCreate MainActivity");
         super.onCreate(savedInstanceState);
 
+        setupWritePermission();
         NotificationService.createNotificationChannel(this);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
