@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.knockknock.dragonra.smartdoor.R;
 
 public class SettingActivity extends AppCompatActivity {
-    public static final String PREFS_NAME = "MyPreferences";
+    public static final String PREFS_NAME = "SmartDoorPreferences";
     SeekBar seekBar;
     Switch notificationSwitch;
     Switch sensorSwitch;
