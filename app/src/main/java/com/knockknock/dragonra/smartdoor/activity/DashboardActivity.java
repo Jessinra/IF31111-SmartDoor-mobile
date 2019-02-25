@@ -80,7 +80,6 @@ public class DashboardActivity extends AppCompatActivity
             case R.id.settings_menu:
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
-                finish();
                 return true;
 
             case R.id.call_icon:
