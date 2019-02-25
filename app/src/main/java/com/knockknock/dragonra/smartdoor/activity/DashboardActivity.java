@@ -35,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
 
-        // Setup sensors
+//        TODO: Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
     }
@@ -48,14 +48,18 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        significantMovementSensorHandler.register();
-        proximitySensorHandler.register();
+
+//        TODO: Uncomment for sensors usage
+//        significantMovementSensorHandler.register();
+//        proximitySensorHandler.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        significantMovementSensorHandler.unregister();
-        proximitySensorHandler.register();
+
+//        TODO: Uncomment for sensors usage
+//        significantMovementSensorHandler.unregister();
+//        proximitySensorHandler.register();
     }
 }

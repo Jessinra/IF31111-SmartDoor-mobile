@@ -9,10 +9,10 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/dashboard"
+        android:id="@+id/dashboard_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".activity.DashboardFragment.DashboardFragment">
+        tools:context=".activity.DashboardFragment.HomeFragment">
 
         <TextView
             android:id="@+id/home_greeting"
@@ -38,8 +38,9 @@
             android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
             card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
 
-            card_view:cardPreventCornerOverlap="true">
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_01"
@@ -91,9 +92,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_02"
@@ -148,9 +152,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_03"
@@ -204,9 +211,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_04"
@@ -260,9 +270,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_05"
@@ -316,9 +329,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_06"
@@ -372,9 +388,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_07"
@@ -428,9 +447,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_08"
@@ -484,9 +506,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_09"
@@ -540,9 +565,12 @@
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="27dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="27dp"
-            card_view:cardCornerRadius="5dp">
+            card_view:cardCornerRadius="5dp"
+            card_view:cardPreventCornerOverlap="true"
+
+            >
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/display_image_10"
@@ -603,7 +631,7 @@
             android:layout_marginEnd="27dp"
             android:layout_marginBottom="32dp"
             android:gravity="center_vertical|center_horizontal"
-            android:onClick="onClick"
+
             android:text="@string/button_sign_out"
             android:textSize="17sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
