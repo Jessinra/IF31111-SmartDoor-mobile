@@ -39,9 +39,12 @@ public class DashboardActivity extends AppCompatActivity
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
+
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
         // Setup sensors
+//        TODO: Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
     }
@@ -54,6 +57,8 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+//        TODO: Uncomment for sensors usage
 //        significantMovementSensorHandler.register();
 //        proximitySensorHandler.register();
     }
@@ -61,9 +66,11 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+//        TODO: Uncomment for sensors usage
 //        significantMovementSensorHandler.unregister();
 //        proximitySensorHandler.register();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(this, SettingActivity.class);
