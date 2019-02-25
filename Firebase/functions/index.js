@@ -43,23 +43,31 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
 exports.testNotification = functions.https.onRequest((req, res) => {
 
     // This registration token comes from the client FCM SDKs.
-    var adminToken = "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt";
+    var adminToken = [
+        "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt",
+        "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO",
+        "fiyO8hOTOkU:APA91bGs-DH-KbDwKCH0GhlAfcvlb6tvXQXcM-YJPnEV2OHzdBwlUSaaKCM0ZZZVXA11FEXfXUD8VuxSl6X6IxP0yeZA-y84MeWWSxW_wJbxHm2ZcQR6XKN5IqcJ3Fufv1UHs-A1GzeC",
+        "e8L_9UiMyx4:APA91bGJkbHw8FW_KDjzPFCh97Kveoqr9z6IwL4Xc4ujPR9yPhWmK56ZU6hjBKsWZC5mv4aPHT9k6Ri37CLojxxPbCIErNDmZc8Uxo1C9U35Lmlj51PkqBvfmZxTCa55E_YNttYeUho4"
+    ];
 
-    var message = {
-        data: {
-            score: '850',
-            time: '2:45'
-        },
-        notification: {
-            title: "Notification title",
-            body: "Notification text content",
-        },
-        token: adminToken
-    };
+    adminToken.forEach(function (userToken) {
 
-    // Send a message to the device corresponding to the provided
-    // registration token.
-    admin.messaging().send(message);
+        var message = {
+            data: {
+                building: 'Whitehouse',
+                time: '19:45'
+            },
+            notification: {
+                title: "Hello !",
+                body: "Somebody is in front of your house",
+            },
+            token: userToken
+        };
+
+        admin.messaging().send(message);
+
+    });
+
     res.send("Message sent!");
 });
 
