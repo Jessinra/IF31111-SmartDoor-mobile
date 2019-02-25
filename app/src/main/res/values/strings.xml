@@ -26,5 +26,10 @@
     <!--String formatting tools-->
     <string name="tab">"    "</string>
     <string name="history_title">Your history</string>
+    <string name="setting">Setting</string>
+    <string name="brightness">Brightness</string>
+    <string name="notification">Notification</string>
+    <string name="pop_up_notification">Pop up notification</string>
+    <string name="sensors">Sensors</string>
 
 </resources>
