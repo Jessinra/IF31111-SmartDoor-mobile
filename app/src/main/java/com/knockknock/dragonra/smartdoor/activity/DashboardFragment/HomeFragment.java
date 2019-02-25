@@ -20,6 +20,7 @@ import com.knockknock.dragonra.smartdoor.controller.Manager.DashboardManager;
 public class HomeFragment extends Fragment implements View.OnClickListener, HomeDialogFragment.NoticeDialogListener {
 
     private HomeViewModel mViewModel;
+    private View parentView;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        parentView = view;
         setupHomeViewOnClickListener(view);
         DashboardManager.fetchDashboard(view, "1234512345");
     }
@@ -92,11 +94,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     @Override
     public void onDialogClick(DialogFragment dialog, int cardNumber, boolean lockState) {
+        Log.d("HOME_FRAGMENT", "onDialogClick"
+                + Integer.toString(cardNumber) + " locked : " + Boolean.toString(lockState));
 
         // TODO: update to internet
-        Log.d("HOME_FRAGMENT", "lock " + Integer.toString(cardNumber));
-    }
+        DashboardManager.fetchDashboard(parentView, "update");
 
+        // TODO: remove this dummy procedure
+        if (lockState) {
+            DashboardManager.fetchDashboard(parentView, "updateLocked");
+        } else {
+            DashboardManager.fetchDashboard(parentView, "updateUnlocked");
+        }
+    }
 
     private void redirectGoogleSignOut() {
         Log.d("DASHBOARD_ACTIVITY", "redirectGoogleSignOut");
