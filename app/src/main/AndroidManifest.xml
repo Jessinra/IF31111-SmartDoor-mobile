@@ -62,7 +62,6 @@
 
         <activity android:name=".DashboardActivity" />
         <activity android:name=".LogoutActivity" />
-        <activity android:name=".utility.AcceleratorSensorHandler" />
     </application>
 
 </manifest>
