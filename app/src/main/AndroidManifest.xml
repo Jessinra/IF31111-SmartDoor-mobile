@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,21 +29,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true" />
 
 
         <activity
-            android:name=".utility.RegisterUserDatabaseClient"
+            android:name=".controller.Services.RegisterUserService"
             android:label = "Add to Database"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=
-                    ".MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <service
-            android:name=".utility.SmartDoorFirebaseMessagingService"
+            android:name=".controller.Services.SmartDoorFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -60,8 +59,8 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".LogoutActivity" />
+        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.LogoutActivity" />
     </application>
 
 </manifest>
