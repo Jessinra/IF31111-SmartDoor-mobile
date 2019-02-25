@@ -23,6 +23,8 @@ public class DashboardActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
         HistoryFragment.OnFragmentInteractionListener {
 
+    private static final String TAG = "DashboardActivity";
+    private static final String androidDoorNumber = "+628123456789";
     private SignificantMovementSensorHandler significantMovementSensorHandler;
     private ProximitySensorHandler proximitySensorHandler;
     private int backButtonCount = 0;
@@ -74,10 +76,23 @@ public class DashboardActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
-        finish();
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.settings_menu:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.call_icon:
+                Log.wtf(TAG, "hello: ");
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", androidDoorNumber, null));
+                startActivity(callIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
