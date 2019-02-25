@@ -48,7 +48,7 @@ public class DashboardFetcher extends AsyncTask<String, String, DashboardFetchRe
     protected void onPostExecute(DashboardFetchResult dashboardFetchResult) {
         super.onPostExecute(dashboardFetchResult);
 
-        if (dashboard.get() != null) {
+        if (dashboard.get() != null && dashboardFetchResult != null) {
             DashboardManager.updateDashboard(dashboard.get(), dashboardFetchResult);
         }
     }

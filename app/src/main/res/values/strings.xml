@@ -26,5 +26,6 @@
     <!--String formatting tools-->
     <string name="tab">"    "</string>
     <string name="history_title">Your history</string>
+    <string name="user_title">Registered User</string>
 
 </resources>

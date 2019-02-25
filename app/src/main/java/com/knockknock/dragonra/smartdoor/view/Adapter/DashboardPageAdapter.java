@@ -10,7 +10,7 @@ import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment
 
 public class DashboardPageAdapter extends FragmentStatePagerAdapter {
 
-    private String[] titles = {"Register", "Home", "History"};
+    private String[] titles = {"Home", "User", "History"};
 
     public DashboardPageAdapter(FragmentManager fm) {
         super(fm);
@@ -20,9 +20,9 @@ public class DashboardPageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                return new RegisterFragment();
-            case 1:
                 return new DashboardFragment();
+            case 1:
+                return new RegisterFragment();
             case 2:
                 return new HistoryFragment();
         }

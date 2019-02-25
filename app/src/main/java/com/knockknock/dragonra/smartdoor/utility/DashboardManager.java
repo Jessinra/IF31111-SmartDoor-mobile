@@ -14,11 +14,12 @@ import com.knockknock.dragonra.smartdoor.view.Adapter.CardViewAdapter;
 public class DashboardManager {
 
     public static void fetchDashboard(View view, String userToken) {
-        Log.d("DashboardManager", "fetchDashboard");
+        Log.d("DASHBOARD_MANAGER", "fetchDashboard");
         new DashboardFetcher(view).execute("userToken", userToken);
     }
 
     static void updateDashboard(@NonNull View view, DashboardFetchResult dashboardFetchResult) {
+        Log.d("DASHBOARD_MANAGER", "updateDashboard");
 
         ViewGroup dashboardCard = view.findViewById(R.id.dashboard);
 

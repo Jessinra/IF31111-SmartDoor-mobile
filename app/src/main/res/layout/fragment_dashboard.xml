@@ -215,7 +215,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_1" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -271,7 +271,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_2" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -327,7 +327,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_3" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -383,7 +383,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_4" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -439,7 +439,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_5" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -495,7 +495,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_6" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -551,7 +551,7 @@
                 android:scaleType="centerCrop"
                 card_view:riv_corner_radius_top_left="5dp"
                 card_view:riv_corner_radius_top_right="5dp"
-                android:src="@drawable/dashboard_office_2" />
+                android:src="@drawable/dashboard_template_7" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

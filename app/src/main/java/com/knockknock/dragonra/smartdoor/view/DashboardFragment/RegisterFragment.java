@@ -47,7 +47,7 @@ public class RegisterFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
         // Get a handle to the RecyclerView.
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.register_recycler_view);
 
         // Give the RecyclerView a default layout manager.
 

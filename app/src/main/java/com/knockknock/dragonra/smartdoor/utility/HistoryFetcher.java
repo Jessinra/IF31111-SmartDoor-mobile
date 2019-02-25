@@ -50,7 +50,7 @@ public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult
     protected void onPostExecute(HistoryFetchResult historyFetchResult) {
         super.onPostExecute(historyFetchResult);
 
-        if (recyclerView.get() != null) {
+        if (recyclerView.get() != null && historyFetchResult != null) {
             HistoryManager.updateHistoryPage(recyclerView.get(), historyFetchResult);
         }
     }
