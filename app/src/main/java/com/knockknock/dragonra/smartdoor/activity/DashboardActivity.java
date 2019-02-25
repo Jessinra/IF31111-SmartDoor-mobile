@@ -1,6 +1,7 @@
 package com.knockknock.dragonra.smartdoor.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -23,10 +24,10 @@ public class DashboardActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
         HistoryFragment.OnFragmentInteractionListener {
 
-    private static final String TAG = "DashboardActivity";
-    private static final String androidDoorNumber = "+628123456789";
     private SignificantMovementSensorHandler significantMovementSensorHandler;
     private ProximitySensorHandler proximitySensorHandler;
+    private boolean enableSensors = false;
+
     private int backButtonCount = 0;
 
     @Override
@@ -36,20 +37,39 @@ public class DashboardActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        setupTab();
+        setupToolbar();
+
+        setSensorPreference();
+        setupSensors(enableSensors);
+    }
+
+    private void setSensorPreference() {
+        final SharedPreferences mSetting = getSharedPreferences(SettingActivity.PREFS_NAME, 0);
+        enableSensors = mSetting.getBoolean("sensors", false);
+    }
+
+    private void setupTab() {
         // Create tab / pager handler
         ViewPager pager = findViewById(R.id.pager);
         pager.setAdapter(new DashboardPageAdapter(getSupportFragmentManager()));
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
+    }
 
+    private void setupToolbar() {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+    }
 
-        // Setup sensors
-//        TODO: Setup sensors
-//        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
-//        proximitySensorHandler = new ProximitySensorHandler(this);
+    private void setupSensors(boolean enableSensors) {
+
+        // TODO: Setup sensors
+        if (enableSensors) {
+            significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
+            proximitySensorHandler = new ProximitySensorHandler(this);
+        }
     }
 
     @Override
@@ -62,16 +82,21 @@ public class DashboardActivity extends AppCompatActivity
         super.onResume();
 
 //        TODO: Uncomment for sensors usage
-//        significantMovementSensorHandler.register();
-//        proximitySensorHandler.register();
+        if (enableSensors) {
+            significantMovementSensorHandler.register();
+            proximitySensorHandler.register();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
 //        TODO: Uncomment for sensors usage
-//        significantMovementSensorHandler.unregister();
-//        proximitySensorHandler.register();
+        if (enableSensors) {
+            significantMovementSensorHandler.unregister();
+            proximitySensorHandler.register();
+        }
     }
 
     @Override
@@ -83,7 +108,11 @@ public class DashboardActivity extends AppCompatActivity
                 return true;
 
             case R.id.call_icon:
-                Log.wtf(TAG, "hello: ");
+                Log.d("DashboardActivity", "hello: ");
+
+                // TODO: fetch from database
+                String androidDoorNumber = "+628123456789";
+
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", androidDoorNumber, null));
                 startActivity(callIntent);
                 return true;
@@ -96,11 +125,14 @@ public class DashboardActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        // Prevent going out of apps by accidentally pushing back button
+
         if (backButtonCount >= 1) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+
         } else {
             Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
             backButtonCount++;
