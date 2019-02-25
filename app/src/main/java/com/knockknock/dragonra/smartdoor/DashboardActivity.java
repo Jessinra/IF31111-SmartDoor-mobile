@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.knockknock.dragonra.smartdoor.utility.ProximitySensorHandler;
+import com.knockknock.dragonra.smartdoor.utility.SignificantMovementSensorHandler;
 import com.knockknock.dragonra.smartdoor.view.Adapter.DashboardPageAdapter;
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment;
@@ -14,6 +16,9 @@ import com.knockknock.dragonra.smartdoor.view.DashboardFragment.RegisterFragment
 public class DashboardActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
         HistoryFragment.OnFragmentInteractionListener {
+
+    private SignificantMovementSensorHandler significantMovementSensorHandler;
+    private ProximitySensorHandler proximitySensorHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +33,28 @@ public class DashboardActivity extends AppCompatActivity
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
+
+        // Setup sensors
+        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
+        proximitySensorHandler = new ProximitySensorHandler(this);
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
         // This is necessary, leave it blank
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        significantMovementSensorHandler.register();
+        proximitySensorHandler.register();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        significantMovementSensorHandler.unregister();
+        proximitySensorHandler.register();
     }
 }
