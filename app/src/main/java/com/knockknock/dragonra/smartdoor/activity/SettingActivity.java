@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor;
+package com.knockknock.dragonra.smartdoor.activity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.knockknock.dragonra.smartdoor.R;
 
 import java.util.prefs.PreferenceChangeEvent;
 

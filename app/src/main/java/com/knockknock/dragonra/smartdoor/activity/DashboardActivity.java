@@ -1,8 +1,14 @@
 package com.knockknock.dragonra.smartdoor.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +18,7 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.SettingActivity;
+import com.knockknock.dragonra.smartdoor.activity.SettingActivity;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.RegisterFragment;
 import com.knockknock.dragonra.smartdoor.controller.SensorHandler.ProximitySensorHandler;
@@ -25,9 +31,13 @@ public class DashboardActivity extends AppCompatActivity
 
     private SignificantMovementSensorHandler significantMovementSensorHandler;
     private ProximitySensorHandler proximitySensorHandler;
+    private static final String TAG = "DashboardActivity";
+    private static final String androidDoorNumber = "+628123456789";
+    private static final int REQUEST_WRITE_SETTINGS=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        settingPermission();
         Log.d("ACTIVITY_START", "onCreate DashboardActivity");
 
         super.onCreate(savedInstanceState);
@@ -44,6 +54,16 @@ public class DashboardActivity extends AppCompatActivity
         // Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
+    }
+
+    public void settingPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(getApplicationContext())) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 200);
+
+            }
+        }
     }
 
     @Override
@@ -66,10 +86,23 @@ public class DashboardActivity extends AppCompatActivity
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
-        finish();
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.settings_menu:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.call_icon:
+                Log.wtf(TAG, "hello: ");
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", androidDoorNumber, null));
+                startActivity(callIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
