@@ -1,13 +1,18 @@
 package com.knockknock.dragonra.smartdoor.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.knockknock.dragonra.smartdoor.R;
+import com.knockknock.dragonra.smartdoor.SettingActivity;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.RegisterFragment;
 import com.knockknock.dragonra.smartdoor.controller.SensorHandler.ProximitySensorHandler;
@@ -34,7 +39,8 @@ public class DashboardActivity extends AppCompatActivity
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
-
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         // Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
@@ -48,14 +54,27 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        significantMovementSensorHandler.register();
-        proximitySensorHandler.register();
+//        significantMovementSensorHandler.register();
+//        proximitySensorHandler.register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        significantMovementSensorHandler.unregister();
-        proximitySensorHandler.register();
+//        significantMovementSensorHandler.unregister();
+//        proximitySensorHandler.register();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
     }
 }
