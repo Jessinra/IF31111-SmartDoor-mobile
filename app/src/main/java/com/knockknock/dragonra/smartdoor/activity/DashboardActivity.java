@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.knockknock.dragonra.smartdoor.R;
@@ -22,8 +23,11 @@ public class DashboardActivity extends AppCompatActivity
         implements RegisterFragment.OnFragmentInteractionListener,
         HistoryFragment.OnFragmentInteractionListener {
 
+    private static final String TAG = "DashboardActivity";
+    private static final String androidDoorNumber = "+628123456789";
     private SignificantMovementSensorHandler significantMovementSensorHandler;
     private ProximitySensorHandler proximitySensorHandler;
+    private int backButtonCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +42,12 @@ public class DashboardActivity extends AppCompatActivity
         PagerSlidingTabStrip tabs = findViewById(R.id.tabs);
         tabs.setShouldExpand(true);
         tabs.setViewPager(pager);
+
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         // Setup sensors
+//        TODO: Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
     }
@@ -54,6 +60,8 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+//        TODO: Uncomment for sensors usage
 //        significantMovementSensorHandler.register();
 //        proximitySensorHandler.register();
     }
@@ -61,15 +69,42 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+//        TODO: Uncomment for sensors usage
 //        significantMovementSensorHandler.unregister();
 //        proximitySensorHandler.register();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, SettingActivity.class);
-        startActivity(intent);
-        finish();
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.settings_menu:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.call_icon:
+                Log.wtf(TAG, "hello: ");
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", androidDoorNumber, null));
+                startActivity(callIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backButtonCount >= 1) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
     }
 
     @Override

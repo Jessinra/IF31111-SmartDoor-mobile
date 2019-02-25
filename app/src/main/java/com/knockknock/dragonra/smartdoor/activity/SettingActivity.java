@@ -33,11 +33,11 @@ public class SettingActivity extends AppCompatActivity {
 
         notificationSwitch = findViewById(R.id.notificationSwitch);
         boolean notification = mSetting.getBoolean("notification", false);
-        notificationSwitch.setChecked(notification);;
+        notificationSwitch.setChecked(notification);
 
         sensorSwitch = findViewById(R.id.Sensors);
         boolean sensors = mSetting.getBoolean("sensors", false);
-        sensorSwitch.setChecked(sensors);;
+        sensorSwitch.setChecked(sensors);
 
 
         int brightness = mSetting.getInt("brightness", getBrightness());
@@ -49,7 +49,7 @@ public class SettingActivity extends AppCompatActivity {
         notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                notificationSwitch.setChecked(isChecked);;
+                notificationSwitch.setChecked(isChecked);
                 SharedPreferences.Editor editor = mSetting.edit();
                 editor.putBoolean("notification", isChecked);
                 editor.apply();
@@ -60,7 +60,7 @@ public class SettingActivity extends AppCompatActivity {
         sensorSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                sensorSwitch.setChecked(isChecked);;
+                sensorSwitch.setChecked(isChecked);
                 SharedPreferences.Editor editor = mSetting.edit();
                 editor.putBoolean("sensors", isChecked);
                 editor.apply();
@@ -71,10 +71,10 @@ public class SettingActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser && success){
+                if (fromUser && success) {
                     setBrightness(progress);
                     SharedPreferences.Editor editor = mSetting.edit();
-                    editor.putInt("brightness",progress);
+                    editor.putInt("brightness", progress);
                     editor.apply();
                 }
             }
@@ -86,7 +86,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (!success){
+                if (!success) {
                     Toast.makeText(SettingActivity.this, "Permission not granted", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -94,10 +94,17 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    private void setBrightness(int brightness){
-        if (brightness<0){
+    private int getBrightness() {
+        int brightness = 60;
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
+        return brightness;
+    }
+
+    private void setBrightness(int brightness) {
+        if (brightness < 0) {
             brightness = 0;
-        } else if (brightness>60) {
+        } else if (brightness > 60) {
             brightness = 60;
         }
 
@@ -106,18 +113,11 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    private int getBrightness(){
-        int brightness = 60;
-        ContentResolver contentResolver = getApplicationContext().getContentResolver();
-        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness);
-        return brightness;
-    }
-
-    private void getPermission(){
+    private void getPermission() {
         boolean value;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             value = Settings.System.canWrite(getApplicationContext());
-            if(value){
+            if (value) {
                 success = true;
             } else {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
@@ -129,15 +129,22 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        if (requestCode==1000){
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+        if (requestCode == 1000) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 boolean value = Settings.System.canWrite(getApplicationContext());
-                if (value){
+                if (value) {
                     success = true;
                 } else {
                     Toast.makeText(this, "Permission not granted 2", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

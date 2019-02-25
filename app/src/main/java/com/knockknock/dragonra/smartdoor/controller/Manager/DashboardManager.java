@@ -22,7 +22,7 @@ public class DashboardManager {
     public static void updateDashboard(@NonNull View view, DashboardFetchResult dashboardFetchResult) {
         Log.d("DASHBOARD_MANAGER", "updateDashboard");
 
-        ViewGroup dashboardCard = view.findViewById(R.id.dashboard);
+        ViewGroup dashboardCard = view.findViewById(R.id.dashboard_home);
 
         dashboardFetchResult.resetStart();
 

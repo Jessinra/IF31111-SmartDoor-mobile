@@ -44,12 +44,14 @@ public class RegisterUserService extends AppCompatActivity {
                 Log.d(TAG, "onClick: add new user");
 
                 String name = mNewName.getText().toString();
-                DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-                Date date = new Date();
-                String strDate = dateFormat.format(date);
-                UserMember user = new UserMember(name, "1");
-                myRef.child("member").child(""+strDate).setValue(user);
-                finish();
+                if(!name.equals("")) {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+                    Date date = new Date();
+                    String strDate = dateFormat.format(date);
+                    UserMember user = new UserMember(name, "1");
+                    myRef.child("member").child("" + strDate).setValue(user);
+                    finish();
+                }
             }
         });
     }

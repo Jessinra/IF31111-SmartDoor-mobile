@@ -131,7 +131,7 @@ exports.history = functions.https.onRequest((req, res) => {
 
 
     // dummy 
-    var message2 = {
+    var messageUpdated = {
 
         userToken: userToken,
         history: [
@@ -164,7 +164,7 @@ exports.history = functions.https.onRequest((req, res) => {
     };
 
     if (userToken === "update") {
-        res.send(message2);
+        res.send(messageUpdated);
     }
 
     res.send(message);
@@ -200,5 +200,64 @@ exports.dashboard = functions.https.onRequest((req, res) => {
             },
         ]
     };
+
+    var updateLocked = {
+        buildings: [
+            {
+                buildingName: "Home",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office 2",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office 3",
+                buildingLockState: true,
+            },
+            {
+                buildingName: "Office 4",
+                buildingLockState: true,
+            },
+        ]
+    };
+
+    var updateUnlocked = {
+        buildings: [
+            {
+                buildingName: "Home",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office 2",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office 3",
+                buildingLockState: false,
+            },
+            {
+                buildingName: "Office 4",
+                buildingLockState: false,
+            },
+        ]
+    };
+
+    if (userToken === "updateLocked") {
+        res.send(updateLocked);
+    }
+
+    if (userToken === "updateUnlocked") {
+        res.send(updateUnlocked);
+    }
+
     res.send(message);
 });
