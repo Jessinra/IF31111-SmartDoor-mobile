@@ -1,20 +1,19 @@
-package com.knockknock.dragonra.smartdoor;
+package com.knockknock.dragonra.smartdoor.activity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.prefs.PreferenceChangeEvent;
+import com.knockknock.dragonra.smartdoor.R;
 
 public class SettingActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "MyPreferences";
@@ -27,6 +26,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
         final SharedPreferences mSetting = getSharedPreferences(PREFS_NAME, 0);
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(60);

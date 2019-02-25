@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.SettingActivity;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.HistoryFragment;
 import com.knockknock.dragonra.smartdoor.activity.DashboardFragment.RegisterFragment;
 import com.knockknock.dragonra.smartdoor.controller.SensorHandler.ProximitySensorHandler;
@@ -41,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity
         tabs.setViewPager(pager);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
         // Setup sensors
 //        significantMovementSensorHandler = new SignificantMovementSensorHandler(this);
 //        proximitySensorHandler = new ProximitySensorHandler(this);
