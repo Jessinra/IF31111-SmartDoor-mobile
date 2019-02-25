@@ -26,6 +26,7 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
         final SharedPreferences mSetting = getSharedPreferences(PREFS_NAME, 0);
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(60);
