@@ -65,13 +65,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     @Override
     public void onClick(View v) {
 
+        // For all cardView
         if (v.getId() >= R.id.card_view01 || v.getId() <= R.id.card_view10) {
             int card_num = v.getId() - R.id.card_view01 + 1;
             showNoticeDialog(card_num);
         }
 
         switch (v.getId()) {
-
             case R.id.button_sign_out:
                 redirectGoogleSignOut();
                 break;
@@ -85,19 +85,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
         HomeDialogFragment newFragment = HomeDialogFragment.newInstance(cardNumber);
         newFragment.setTargetFragment(this, 0);
-        newFragment.show(getFragmentManager(), "showNoticeDialog");
+        if (getFragmentManager() != null) {
+            newFragment.show(getFragmentManager(), "showNoticeDialog");
+        }
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, int cardNumber) {
-        // User touched the dialog's positive button
+    public void onDialogClick(DialogFragment dialog, int cardNumber, boolean lockState) {
 
-        Log.d("HOME_FRAGMENT", "open " + Integer.toString(cardNumber));
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog, int cardNumber) {
-        // User touched the dialog's negative button
+        // TODO: update to internet
         Log.d("HOME_FRAGMENT", "lock " + Integer.toString(cardNumber));
     }
 

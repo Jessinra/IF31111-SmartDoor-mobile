@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 public class HomeDialogFragment extends DialogFragment {
@@ -18,11 +17,11 @@ public class HomeDialogFragment extends DialogFragment {
     public static HomeDialogFragment newInstance(int cardNumber) {
         Log.d("DIALOG_FRAGMENT", "newInstance");
 
-        HomeDialogFragment frag = new HomeDialogFragment();
+        HomeDialogFragment dialogFragment = new HomeDialogFragment();
         Bundle args = new Bundle();
         args.putInt("cardNumber", cardNumber);
-        frag.setArguments(args);
-        return frag;
+        dialogFragment.setArguments(args);
+        return dialogFragment;
     }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
@@ -38,14 +37,6 @@ public class HomeDialogFragment extends DialogFragment {
         }
     }
 
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        Log.d("DIALOG_FRAGMENT", "onAttachFragment");
-
-        super.onAttachFragment(childFragment);
-        listener = (NoticeDialogListener) childFragment;
-    }
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -57,16 +48,16 @@ public class HomeDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage("What should I do ?")
-                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Lock", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
-                        listener.onDialogPositiveClick(HomeDialogFragment.this, cardNumber);
+                        listener.onDialogClick(HomeDialogFragment.this, cardNumber, true);
                     }
                 })
-                .setNegativeButton("Lock", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Open", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the negative button event back to the host activity
-                        listener.onDialogNegativeClick(HomeDialogFragment.this, cardNumber);
+                        listener.onDialogClick(HomeDialogFragment.this, cardNumber, false);
                     }
                 });
 
@@ -78,8 +69,6 @@ public class HomeDialogFragment extends DialogFragment {
      * implement this interface in order to receive event callbacks.
      * Each method passes the DialogFragment in case the host needs to query it. */
     public interface NoticeDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, int cardNumber);
-
-        void onDialogNegativeClick(DialogFragment dialog, int cardNumber);
+        void onDialogClick(DialogFragment dialog, int cardNumber, boolean isLocked);
     }
 }
