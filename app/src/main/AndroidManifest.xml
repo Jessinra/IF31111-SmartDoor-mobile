@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -21,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="AllowBackup">
-
+        <activity android:name=".controller.Services.BackgroundService"></activity>
+        <activity android:name=".controller.Services.GoogleLocationService" />
         <activity
             android:name=".activity.SettingActivity"
             android:parentActivityName=".activity.DashboardActivity">
@@ -44,13 +48,13 @@
             android:name=".activity.LoginActivity"
             android:exported="true" />
         <activity
-
             android:name=".controller.Services.RegisterUserService"
-            android:label = "Add to Database"
+            android:label="Add to Database"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
+
         </activity>
 
         <service
