@@ -22,8 +22,8 @@
         <activity
             android:name=".SettingActivity">
         </activity>
-        <activity
-            android:name=".MainActivity"
+        <activity         
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,19 +34,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true" />
         <activity
+<<<<<<< HEAD
             android:name=".utility.RegisterUserDatabaseClient"
             android:label="Add to Database"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+=======
+            android:name=".controller.Services.RegisterUserService"
+            android:label = "Add to Database"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+>>>>>>> development
         </activity>
 
         <service
-            android:name=".utility.SmartDoorFirebaseMessagingService"
+            android:name=".controller.Services.SmartDoorFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -66,8 +75,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".LogoutActivity" />
+        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.LogoutActivity" />
     </application>
 
 </manifest>
