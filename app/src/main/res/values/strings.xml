@@ -27,11 +27,17 @@
     <string name="notification_channel_description">Smart door for your life!</string>
 
     <string name="history_title">Your history</string>
+    <string name="setting">Setting</string>
+    <string name="brightness">Brightness</string>
+    <string name="notification">Notification</string>
+    <string name="pop_up_notification">Pop up notification</string>
+    <string name="sensors">Sensors</string>
     <string name="user_title">Registered User</string>
     <string name="register_user_hint">Enter name</string>
     <string name="register_user_button_text">Add to database</string>
     <string name="home_card_title_template">Template</string>
     <string name="home_title">Hi Bitch !</string>
     <string name="home_card_lock_state_desc">lock state</string>
+
 
 </resources>
