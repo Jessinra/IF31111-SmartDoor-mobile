@@ -19,6 +19,7 @@ public class HistoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SwipeRefreshLayout pullToRefresh;
+    private String userToken = getString(R.string.userToken);
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -48,8 +49,7 @@ public class HistoryFragment extends Fragment {
         // Set up the history page
         RecyclerView recyclerView = view.findViewById(R.id.history_recycle_view);
 
-        // TODO: use actual userToken
-        HistoryManager historyManager = new HistoryManager(recyclerView, "123123");
+        HistoryManager historyManager = new HistoryManager(recyclerView, userToken);
         historyManager.setupHistoryPage(view.getContext());
 
         // Set the pull to refresh
@@ -58,8 +58,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onRefresh() {
 
-                // TODO: Remove "update" -> CHANGE IT TO userToken, THIS FOR DUMMY PURPOSE ONLY
-                HistoryManager.fetchHistoryData("update");
+                HistoryManager.fetchHistoryData(userToken);
                 pullToRefresh.setRefreshing(false);
             }
         });

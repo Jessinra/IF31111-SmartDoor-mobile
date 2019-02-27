@@ -4,42 +4,6 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 
-/*====================================== Dummy & Tutorial function =====================================================*/
-
-exports.helloWorld = functions.https.onRequest((request, response) => {
-    response.send("Hello from Firebase!");
-});
-
-
-// Take the text parameter passed to this HTTP endpoint and insert it into the
-// Realtime Database under the path /messages/:pushId/original
-exports.addMessage = functions.https.onRequest((req, res) => {
-
-    // Grab the text parameter.
-    const original = req.query.text;
-
-    // Push the new message into the Realtime Database using the Firebase Admin SDK.
-    return admin.database().ref('/messages').push({ original: original }).then((snapshot) => {
-
-        // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-        return res.redirect(303, snapshot.ref.toString());
-    });
-});
-
-// Listens for new messages added to /messages/:pushId/original and creates an
-// uppercase version of the message to /messages/:pushId/uppercase
-exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
-    .onCreate((snapshot, context) => {
-        // Grab the current value of what was written to the Realtime Database.
-        const original = snapshot.val();
-        console.log('Uppercasing', context.params.pushId, original);
-        const uppercase = original.toUpperCase();
-        // You must return a Promise when performing asynchronous tasks inside a Functions such as
-        // writing to the Firebase Realtime Database.
-        // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
-        return snapshot.ref.parent.child('uppercase').set(uppercase);
-    });
-
 exports.testNotification = functions.https.onRequest((req, res) => {
 
     // This registration token comes from the client FCM SDKs.
@@ -65,207 +29,190 @@ exports.testNotification = functions.https.onRequest((req, res) => {
         };
 
         admin.messaging().send(message);
-
     });
 
     res.send("Message sent!");
 });
 
-/*===========================================================================================*/
-/*===========================================================================================*/
-/*===========================================================================================*/
-
-exports.sendNotificationTemplate = functions.https.onRequest((req, res) => {
-
-    // TODO:  (jessin) search for FIREBASE_TOKEN at debug to get this. this one is mine 
-    var adminToken = "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt";
-
-    // TODO: Modify what data you need to send 
-    var message = {
-        data: {
-
-            // Notification data
-            SystemTitle: "Notification title",
-            SistemText: "Notification text content",
-
-            // Other payload data
-            score: '850',
-            time: '2:45'
-        },
-        token: adminToken
-    };
-
-    // Sending the message
-    admin.messaging().send(message);
-    res.send("Message sent!");
+exports.dashboard = functions.https.onRequest((req, res) => {
+    return dashboard(req, res);
 });
 
 exports.history = functions.https.onRequest((req, res) => {
-
-    var userToken = req.body.userToken;
-
-    // dummy 
-    var message = {
-
-        userToken: userToken,
-        history: [
-            {
-                date: "22/03/2019",
-                time: "05:39",
-                building: "house1",
-            },
-            {
-                date: "23/03/2019",
-                time: "05:39",
-                building: "house2",
-            },
-            {
-                date: "24/03/2019",
-                time: "05:39",
-                building: "house3",
-            },
-            {
-                date: "25/03/2019",
-                time: "05:39",
-                building: "house4",
-            },
-            {
-                date: "26/03/2019",
-                time: "05:39",
-                building: "house5",
-            },
-        ]
-    };
-
-
-    // dummy 
-    var messageUpdated = {
-
-        userToken: userToken,
-        history: [
-            {
-                date: "22/03/2019",
-                time: "05:39",
-                building: "office1",
-            },
-            {
-                date: "23/03/2019",
-                time: "05:39",
-                building: "office2",
-            },
-            {
-                date: "24/03/2019",
-                time: "05:39",
-                building: "office3",
-            },
-            {
-                date: "25/03/2019",
-                time: "05:39",
-                building: "office4",
-            },
-            {
-                date: "26/03/2019",
-                time: "05:39",
-                building: "office5",
-            },
-        ]
-    };
-
-    if (userToken === "update") {
-        res.send(messageUpdated);
-    }
-
-    res.send(message);
+    return history(req, res);
 });
 
-
-exports.dashboard = functions.https.onRequest((req, res) => {
-
-    var userToken = req.body.userToken;
-
-    // dummy 
-    var message = {
-        buildings: [
-            {
-                buildingName: "Home",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office 2",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office 3",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office 4",
-                buildingLockState: false,
-            },
-        ]
-    };
-
-    var updateLocked = {
-        buildings: [
-            {
-                buildingName: "Home",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office 2",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office 3",
-                buildingLockState: true,
-            },
-            {
-                buildingName: "Office 4",
-                buildingLockState: true,
-            },
-        ]
-    };
-
-    var updateUnlocked = {
-        buildings: [
-            {
-                buildingName: "Home",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office 2",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office 3",
-                buildingLockState: false,
-            },
-            {
-                buildingName: "Office 4",
-                buildingLockState: false,
-            },
-        ]
-    };
-
-    if (userToken === "updateLocked") {
-        res.send(updateLocked);
-    }
-
-    if (userToken === "updateUnlocked") {
-        res.send(updateUnlocked);
-    }
-
-    res.send(message);
+exports.historyLogger = functions.https.onRequest((req, res) => {
+    return historyLogger(req);
 });
+
+exports.dashboardHandler = functions.https.onRequest((req, res) => {
+    return dashboardHandler(req);
+});
+
+async function dashboard(request, response){
+    var maxBuilding = 10
+
+    var userToken = request.body.userToken;
+    var message = {
+        buildings: await getBuildings(userToken, maxBuilding)
+    };
+    response.send(message);
+}
+
+async function history(request, response){
+    let maxHistory = 50
+
+    var userToken = request.body.userToken;
+    let message = {
+        userToken: userToken,
+        history: await getHistory(userToken, maxHistory)
+    };
+    response.send(message)
+}
+
+async function historyLogger(request) {
+
+    let userToken = req.body.userToken;
+    let buildingId = req.body.buildingId;
+    let buildingLockState = req.body.buildingLockState;
+
+    let buildingName = await getBuildingName(userToken, buildingId);
+    let timestamp = await getTimestamp()
+
+    let historyRecord = {
+        "buildingLockState": buildingLockState,
+        "buildingName": buildingName,
+        "timeStamp": timestamp
+    };
+
+    let DbReference = "/SmartDoorUser/" + userToken + "/History"
+    return admin.database().ref(DbReference).push(historyRecord);
+};
+
+async function dashboardHandler(request) {
+
+    let userToken = req.body.userToken;
+    let buildingId = req.body.buildingId;
+    let buildingLockState = req.body.buildingLockState;
+
+    if (buildingLockState === "locked" || buildingLockState === "unlocked") {
+        await setBuildingLockState(userToken, buildingId, buildingLockState);
+    }
+    return;
+};
+
+
+function getTimestamp() {
+    return new Promise(resolve => {
+        var date = new Date();
+
+        var hour = date.getHours();
+        hour = (hour < 10 ? "0" : "") + hour;
+
+        var min = date.getMinutes();
+        min = (min < 10 ? "0" : "") + min;
+
+        var year = date.getFullYear();
+
+        var month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+
+        var day = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+
+        resolve(year + ":" + month + ":" + day + "      " + hour + ":" + min);
+    })
+
+        .catch((error) => {
+            console.log("getTimestamp error :" + error + "\n");
+        });
+};
+
+function getBuildings(userToken, maxBuilding){
+    return new Promise(resolve => {
+
+        var DbReference = "/SmartDoorUser/" + userToken + "/Building"
+
+        var buildingRef = admin.database().ref(DbReference);
+        buildingRef.on("value", function(snapshot) {
+
+            let result = []
+            snapshot.forEach(function (childSnapshot) {
+                result.push(childSnapshot.val())
+            });
+
+            resolve(result.slice(0, maxBuilding))
+        });
+    })
+    .catch((error) => {
+        console.log("getBuildings error : " + error + "\n");
+    })
+};
+
+function getBuildingName(userToken, buildingId) {
+    return new Promise(resolve => {
+
+        var DbReference = "/SmartDoorUser/" + userToken + "/Building"
+
+        var buildingRef = admin.database().ref(DbReference);
+        buildingRef.on('value', function (snapshot) {
+
+            snapshot.forEach(function (childSnapshot) {
+
+                var building = childSnapshot.val();
+                if (building.buildingID === buildingId) {
+                    resolve(building.buildingName);
+                }
+            });
+        });
+    })
+    .catch((error) => {
+        console.log("getBuildingName error : " + error + "\n");
+    })
+};
+
+function setBuildingLockState(userToken, buildingId, buildingLockState) {
+    return new Promise(resolve => {
+
+        var DbReference = "/SmartDoorUser/" + userToken + "/Building";
+        var buildingRef = admin.database().ref(DbReference);
+
+        buildingRef.on('value', function (snapshot) {
+
+            snapshot.forEach(function (childSnapshot) {
+
+                var building = childSnapshot.val();
+                if (building.buildingID === buildingId) {
+
+                    childSnapshot.getRef().update({ buildingLockState: buildingLockState });
+                    resolve();
+                }
+            });
+        });
+    })
+    .catch((error) => {
+        console.log("setBuildingLockState error : " + error + "\n");
+    })
+};
+
+function getHistory(userToken, maxHistory){
+    return new Promise(resolve => {
+
+        var DbReference = "/SmartDoorUser/" + userToken + "/History"
+        var historyRef = admin.database().ref(DbReference);
+        
+        historyRef.on("value", function(snapshot) {
+
+            let result = []
+            snapshot.forEach(function (childSnapshot) {
+                result.push(childSnapshot.val())
+            });
+
+            resolve(result.reverse().slice(0, maxHistory))
+        });
+    })
+    .catch((error) => {
+        console.log("getHistory error : " + error + "\n");
+    })
+}

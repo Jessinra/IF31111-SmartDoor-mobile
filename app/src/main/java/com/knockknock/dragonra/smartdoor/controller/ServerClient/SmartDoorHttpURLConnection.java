@@ -1,4 +1,4 @@
-package com.knockknock.dragonra.smartdoor.controller.DataFetcher;
+package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.support.annotation.NonNull;
 import android.util.Pair;

@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import com.knockknock.dragonra.smartdoor.R;
 import com.knockknock.dragonra.smartdoor.activity.LogoutActivity;
 import com.knockknock.dragonra.smartdoor.controller.Manager.DashboardManager;
+import com.knockknock.dragonra.smartdoor.controller.Manager.HistoryManager;
 
 public class HomeFragment extends Fragment implements View.OnClickListener, HomeDialogFragment.NoticeDialogListener {
 
     private HomeViewModel mViewModel;
     private View parentView;
+    private String userToken = getString(R.string.userToken);
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -46,7 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         parentView = view;
         setupHomeViewOnClickListener(view);
-        DashboardManager.fetchDashboard(view, "1234512345");
+        DashboardManager.fetchDashboard(view, userToken);
     }
 
     private void setupHomeViewOnClickListener(@NonNull View view) {
@@ -93,19 +95,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     }
 
     @Override
-    public void onDialogClick(DialogFragment dialog, int cardNumber, boolean lockState) {
+    public void onDialogClick(DialogFragment dialog, int cardNumber, boolean isLocked) {
         Log.d("HOME_FRAGMENT", "onDialogClick"
-                + Integer.toString(cardNumber) + " locked : " + Boolean.toString(lockState));
+                + Integer.toString(cardNumber) + " locked : " + Boolean.toString(isLocked));
 
-        // TODO: update to internet
-        DashboardManager.fetchDashboard(parentView, "update");
-
-        // TODO: remove this dummy procedure
-        if (lockState) {
-            DashboardManager.fetchDashboard(parentView, "updateLocked");
+        if (isLocked) {
+            DashboardManager.changeLockState(userToken, Integer.toString(cardNumber), "locked");
+            HistoryManager.logHistory(userToken, Integer.toString(cardNumber), "locked");
         } else {
-            DashboardManager.fetchDashboard(parentView, "updateUnlocked");
+            DashboardManager.changeLockState(userToken, Integer.toString(cardNumber), "unlocked");
+            HistoryManager.logHistory(userToken, Integer.toString(cardNumber), "unlocked");
         }
+        DashboardManager.fetchDashboard(parentView, userToken);
     }
 
     private void redirectGoogleSignOut() {

@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.knockknock.dragonra.smartdoor.R;
-import com.knockknock.dragonra.smartdoor.controller.DataFetcher.DashboardFetcher;
+import com.knockknock.dragonra.smartdoor.controller.ServerClient.BuildingLockStateUpdater;
+import com.knockknock.dragonra.smartdoor.controller.ServerClient.DashboardFetcher;
 import com.knockknock.dragonra.smartdoor.model.DashboardBuildingRecord;
 import com.knockknock.dragonra.smartdoor.model.DashboardFetchResult;
 import com.knockknock.dragonra.smartdoor.view.Adapter.CardViewAdapter;
@@ -44,5 +45,10 @@ public class DashboardManager {
                 }
             }
         }
+    }
+
+    public static void changeLockState(String userToken, String buildingId, String lockState) {
+        Log.d("DASHBOARD_MANAGER", "changeLockState");
+        new BuildingLockStateUpdater().execute("userToken", userToken, "buildingId", buildingId, "buildingLockState", lockState);
     }
 }

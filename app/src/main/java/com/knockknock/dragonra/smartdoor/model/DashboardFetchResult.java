@@ -3,6 +3,7 @@ package com.knockknock.dragonra.smartdoor.model;
 public class DashboardFetchResult {
 
     private int startIndex;
+
     private DashboardBuildingRecord[] buildings;
 
     public DashboardBuildingRecord[] getBuildings() {

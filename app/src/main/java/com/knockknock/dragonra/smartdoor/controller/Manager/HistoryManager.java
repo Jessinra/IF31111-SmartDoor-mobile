@@ -5,7 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.knockknock.dragonra.smartdoor.controller.DataFetcher.HistoryFetcher;
+import com.knockknock.dragonra.smartdoor.controller.ServerClient.HistoryFetcher;
+import com.knockknock.dragonra.smartdoor.controller.ServerClient.HistoryLogger;
 import com.knockknock.dragonra.smartdoor.model.HistoryFetchResult;
 import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryPageAdapter;
 
@@ -48,5 +49,10 @@ public class HistoryManager {
 
         HistoryPageAdapter historyViewAdapter = new HistoryPageAdapter(historyFetchResult.toStringArray());
         recyclerView.setAdapter(historyViewAdapter);
+    }
+
+    public static void logHistory(String userToken, String buildingId, String lockState) {
+        Log.d("DASHBOARD_MANAGER", "changeLockState");
+        new HistoryLogger().execute("userToken", userToken, "buildingId", buildingId, "buildingLockState", lockState);
     }
 }

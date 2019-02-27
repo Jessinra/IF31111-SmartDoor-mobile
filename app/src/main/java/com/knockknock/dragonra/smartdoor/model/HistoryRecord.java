@@ -3,24 +3,24 @@ package com.knockknock.dragonra.smartdoor.model;
 import android.support.annotation.NonNull;
 
 public class HistoryRecord {
-    private String date;
-    private String time;
-    private String building;
+    private String buildingLockState;
+    private String buildingName;
+    private String timeStamp;
 
-    public String getDate() {
-        return date;
+    public String getBuildingLockState() {
+        return buildingLockState;
     }
 
-    public String getTime() {
-        return time;
+    public String getBuildingName() {
+        return buildingName;
     }
 
-    public String getBuilding() {
-        return building;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
     @NonNull
     public String toString() {
-        return getDate() + " " + getTime() + " " + getBuilding();
+        return getTimeStamp() + "    " + getBuildingName() + "    " + getBuildingLockState();
     }
 }
