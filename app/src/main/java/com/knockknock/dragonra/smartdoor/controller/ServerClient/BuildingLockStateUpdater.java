@@ -1,7 +1,6 @@
 package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -41,9 +40,6 @@ public class BuildingLockStateUpdater extends AsyncTask<String, String, Void> {
         try {
             String dashboardHandlerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/dashboardHandler";
             String response = connectionManager.sendPost(dashboardHandlerURL, postParams);
-
-            Log.d("POST_REQUEST", "response :" + response);
-
 
         } catch (Exception e) {
             e.printStackTrace();

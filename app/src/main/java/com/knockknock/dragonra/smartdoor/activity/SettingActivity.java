@@ -104,8 +104,8 @@ public class SettingActivity extends AppCompatActivity {
     private void setBrightness(int brightness) {
         if (brightness < 0) {
             brightness = 0;
-        } else if (brightness > 60) {
-            brightness = 60;
+        } else if (brightness > 30) {
+            brightness = 30;
         }
 
         ContentResolver contentResolver = getApplicationContext().getContentResolver();

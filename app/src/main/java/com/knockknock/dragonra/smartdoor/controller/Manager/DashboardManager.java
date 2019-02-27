@@ -22,11 +22,6 @@ public class DashboardManager {
         new DashboardFetcher(view).execute("userToken", userToken);
     }
 
-    public static void fetchDashboard(View view, String userToken, Callable<Void> callback) {
-        Log.d("DASHBOARD_MANAGER", "fetchDashboard");
-        new DashboardFetcher(view).execute("userToken", userToken);
-    }
-
     public static void updateDashboard(@NonNull View view, DashboardFetchResult dashboardFetchResult) {
         Log.d("DASHBOARD_MANAGER", "updateDashboard");
 

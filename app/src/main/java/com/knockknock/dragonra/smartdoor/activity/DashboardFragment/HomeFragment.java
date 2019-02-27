@@ -105,20 +105,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         final String buildingId = Integer.toString(cardNumber);
         final String lockState = (isLocked) ? "locked" : "unlocked";
 
-        Log.d("POST_REQUEST", "calling changeLockState");
-
+        HistoryManager.logHistory(userToken, buildingId, lockState);
         DashboardManager.changeLockState(userToken, buildingId, lockState, new Callable<Void>() {
             public Void call() {
-                Log.d("POST_REQUEST", "calling logHistory");
-
-                HistoryManager.logHistory(userToken, buildingId, lockState, new Callable<Void>() {
-                    public Void call() {
-
-                        Log.d("POST_REQUEST", "calling fetchDashboard");
-                        DashboardManager.fetchDashboard(parentView, userToken);
-                        return null;
-                    }
-                });
+                DashboardManager.fetchDashboard(parentView, userToken);
                 return null;
             }
         });

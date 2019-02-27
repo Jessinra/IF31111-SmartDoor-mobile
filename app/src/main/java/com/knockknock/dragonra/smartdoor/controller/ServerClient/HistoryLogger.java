@@ -1,11 +1,9 @@
 package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 
 public class HistoryLogger extends AsyncTask<String, String, Void> {
@@ -13,13 +11,11 @@ public class HistoryLogger extends AsyncTask<String, String, Void> {
     private String userToken;
     private String buildingId;
     private String lockState;
-    private Callable callback;
 
-    public HistoryLogger(String userToken, String buildingId, String lockState, Callable callback) {
+    public HistoryLogger(String userToken, String buildingId, String lockState) {
         this.userToken = userToken;
         this.buildingId = buildingId;
         this.lockState = lockState;
-        this.callback = callback;
     }
 
     @Override
@@ -42,8 +38,6 @@ public class HistoryLogger extends AsyncTask<String, String, Void> {
         try {
             String historyLoggerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/historyLogger";
             String response = connectionManager.sendPost(historyLoggerURL, postParams);
-
-            Log.d("POST_REQUEST", "response :" + response);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,11 +47,6 @@ public class HistoryLogger extends AsyncTask<String, String, Void> {
     @Override
     protected void onPostExecute(Void dummy) {
         super.onPostExecute(dummy);
-        try {
-            callback.call();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
 
