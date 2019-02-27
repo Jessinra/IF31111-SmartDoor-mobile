@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.wtf(TAG, "onCreateView: HALO");
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.dashboard_user, container, false);
@@ -60,20 +58,16 @@ public class RegisterFragment extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.wtf(TAG, "Hi im here");
                 count = 0;
                 mWordList.clear();
                 for (DataSnapshot ds : dataSnapshot.child("member").getChildren()) {
                     count++;
-                    Log.wtf(TAG, "total" + count);
 
 //                    UserMember user = new UserMember();
 //                    user.setName(ds.getValue(UserMember.class).getName());
                     mWordList.addLast(ds.getValue(UserMember.class).getName());
                 }
-                for (int i = 0; i < count; i++) {
-                    Log.wtf(TAG, "string" + mWordList.get(i));
-                }
+
                 mAdapter = new RegisterUserPageAdapter(getActivity(), mWordList);
                 // Connect the adapter with the RecyclerView.
                 mRecyclerView.setAdapter(mAdapter);

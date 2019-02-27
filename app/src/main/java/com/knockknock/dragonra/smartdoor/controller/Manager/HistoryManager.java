@@ -17,6 +17,9 @@ public class HistoryManager {
     private static WeakReference<RecyclerView> recyclerView;
     private static String userToken;
 
+    private static int cacheUsageBeforeExpire = 0;
+    private static HistoryFetchResult historyFetchResult;
+
     public HistoryManager(RecyclerView recyclerView, String userToken) {
         HistoryManager.recyclerView = new WeakReference<>(recyclerView);
         HistoryManager.userToken = userToken;
@@ -27,7 +30,6 @@ public class HistoryManager {
         if (recyclerView.get() == null) {
             return;
         }
-
         recyclerView.get().setHasFixedSize(true);
         recyclerView.get().setLayoutManager(new LinearLayoutManager(context));
         fetchHistoryData(userToken);
@@ -40,19 +42,46 @@ public class HistoryManager {
         }
 
         // Create new to keep update the recyclerView
-        new HistoryFetcher(recyclerView.get()).execute("userToken", userToken);
+        if (isCacheExpired()) {
+            new HistoryFetcher(recyclerView.get()).execute("userToken", userToken);
+        } else {
+            reduceCacheUsageBeforeExpire();
+            updateHistoryPage(recyclerView.get(), historyFetchResult);
+        }
     }
 
     // Similar to onFinishFetchNewData
     public static void updateHistoryPage(RecyclerView recyclerView, HistoryFetchResult historyFetchResult) {
         Log.d("HISTORY", "updateHistoryPage");
 
+        HistoryManager.historyFetchResult = historyFetchResult;
+
         HistoryPageAdapter historyViewAdapter = new HistoryPageAdapter(historyFetchResult.toStringArray());
         recyclerView.setAdapter(historyViewAdapter);
+
+        setCacheAsNew();
     }
 
     public static void logHistory(String userToken, String buildingId, String lockState) {
         Log.d("DASHBOARD_MANAGER", "changeLockState");
+
+        invalidateCache();
         new HistoryLogger(userToken, buildingId, lockState).execute();
+    }
+
+    private static void invalidateCache() {
+        DashboardManager.cacheUsageBeforeExpire = 0;
+    }
+
+    private static void setCacheAsNew() {
+        DashboardManager.cacheUsageBeforeExpire = 10;
+    }
+
+    private static boolean isCacheExpired() {
+        return cacheUsageBeforeExpire == 0;
+    }
+
+    private static void reduceCacheUsageBeforeExpire() {
+        cacheUsageBeforeExpire--;
     }
 }

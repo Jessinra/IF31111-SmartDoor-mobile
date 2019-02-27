@@ -17,16 +17,26 @@ import java.util.concurrent.Callable;
 
 public class DashboardManager {
 
+    private static DashboardFetchResult dashboardFetchResult;
+    static int cacheUsageBeforeExpire = 0;
+
     public static void fetchDashboard(View view, String userToken) {
         Log.d("DASHBOARD_MANAGER", "fetchDashboard");
-        new DashboardFetcher(view).execute("userToken", userToken);
+
+        if (isCacheExpired()) {
+            new DashboardFetcher(view).execute("userToken", userToken);
+        } else {
+            reduceCacheUsageBeforeExpire();
+            updateDashboard(view, dashboardFetchResult);
+        }
     }
 
     public static void updateDashboard(@NonNull View view, DashboardFetchResult dashboardFetchResult) {
         Log.d("DASHBOARD_MANAGER", "updateDashboard");
 
-        ViewGroup dashboardCard = view.findViewById(R.id.dashboard_home);
+        DashboardManager.dashboardFetchResult = dashboardFetchResult;
 
+        ViewGroup dashboardCard = view.findViewById(R.id.dashboard_home);
         dashboardFetchResult.resetStart();
 
         View dashboardChildView;
@@ -47,10 +57,29 @@ public class DashboardManager {
                 }
             }
         }
+
+        setCacheAsNew();
     }
 
     public static void changeLockState(String userToken, String buildingId, String lockState, Callable callback) {
         Log.d("DASHBOARD_MANAGER", "changeLockState");
+        invalidateCache();
         new BuildingLockStateUpdater(userToken, buildingId, lockState, callback).execute();
+    }
+
+    private static void invalidateCache() {
+        DashboardManager.cacheUsageBeforeExpire = 0;
+    }
+
+    private static void setCacheAsNew() {
+        DashboardManager.cacheUsageBeforeExpire = 10;
+    }
+
+    private static boolean isCacheExpired() {
+        return cacheUsageBeforeExpire == 0;
+    }
+
+    private static void reduceCacheUsageBeforeExpire() {
+        cacheUsageBeforeExpire--;
     }
 }

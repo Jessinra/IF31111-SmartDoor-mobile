@@ -39,10 +39,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("ACTIVITY_START", "onActivityCreated HomeFragment");
-        super.onActivityCreated(savedInstanceState);
 
+        super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
@@ -107,12 +106,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
         HistoryManager.logHistory(userToken, buildingId, lockState);
         DashboardManager.changeLockState(userToken, buildingId, lockState, new Callable<Void>() {
+
+            // Update dashboard
             public Void call() {
                 DashboardManager.fetchDashboard(parentView, userToken);
                 return null;
             }
         });
-
     }
 
     private void redirectGoogleSignOut() {
