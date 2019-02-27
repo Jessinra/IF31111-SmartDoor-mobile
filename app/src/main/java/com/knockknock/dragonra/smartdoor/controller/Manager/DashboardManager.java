@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
 public class DashboardManager {
 
     private static DashboardFetchResult dashboardFetchResult;
-    static int cacheUsageBeforeExpire = 0;
+    private static int cacheUsageBeforeExpire = 0;
 
     public static void fetchDashboard(View view, String userToken) {
         Log.d("DASHBOARD_MANAGER", "fetchDashboard");
@@ -57,8 +57,6 @@ public class DashboardManager {
                 }
             }
         }
-
-        setCacheAsNew();
     }
 
     public static void changeLockState(String userToken, String buildingId, String lockState, Callable callback) {
@@ -71,15 +69,15 @@ public class DashboardManager {
         DashboardManager.cacheUsageBeforeExpire = 0;
     }
 
-    private static void setCacheAsNew() {
-        DashboardManager.cacheUsageBeforeExpire = 10;
+    public static void setCacheAsNew() {
+        DashboardManager.cacheUsageBeforeExpire = 5;
     }
 
     private static boolean isCacheExpired() {
-        return cacheUsageBeforeExpire == 0;
+        return DashboardManager.cacheUsageBeforeExpire == 0;
     }
 
     private static void reduceCacheUsageBeforeExpire() {
-        cacheUsageBeforeExpire--;
+        DashboardManager.cacheUsageBeforeExpire--;
     }
 }

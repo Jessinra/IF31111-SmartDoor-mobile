@@ -52,6 +52,7 @@ public class DashboardFetcher extends AsyncTask<String, String, DashboardFetchRe
 
         if (dashboard.get() != null && dashboardFetchResult != null) {
             DashboardManager.updateDashboard(dashboard.get(), dashboardFetchResult);
+            DashboardManager.setCacheAsNew();
         }
     }
 }

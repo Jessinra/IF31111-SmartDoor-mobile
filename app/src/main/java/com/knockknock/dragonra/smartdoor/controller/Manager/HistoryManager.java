@@ -58,8 +58,6 @@ public class HistoryManager {
 
         HistoryPageAdapter historyViewAdapter = new HistoryPageAdapter(historyFetchResult.toStringArray());
         recyclerView.setAdapter(historyViewAdapter);
-
-        setCacheAsNew();
     }
 
     public static void logHistory(String userToken, String buildingId, String lockState) {
@@ -70,18 +68,18 @@ public class HistoryManager {
     }
 
     private static void invalidateCache() {
-        DashboardManager.cacheUsageBeforeExpire = 0;
+        HistoryManager.cacheUsageBeforeExpire = 0;
     }
 
-    private static void setCacheAsNew() {
-        DashboardManager.cacheUsageBeforeExpire = 10;
+    public static void setCacheAsNew() {
+        HistoryManager.cacheUsageBeforeExpire = 5;
     }
 
     private static boolean isCacheExpired() {
-        return cacheUsageBeforeExpire == 0;
+        return HistoryManager.cacheUsageBeforeExpire == 0;
     }
 
     private static void reduceCacheUsageBeforeExpire() {
-        cacheUsageBeforeExpire--;
+        HistoryManager.cacheUsageBeforeExpire--;
     }
 }
