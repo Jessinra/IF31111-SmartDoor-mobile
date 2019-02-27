@@ -46,7 +46,6 @@ public class SmartDoorHttpURLConnection {
         wr.close();
 
         Log.d("POST_REQUEST", "url : " + url);
-        Log.d("POST_REQUEST", "params : " + postParams);
 
         // Parse response
         return parseResponse(con);

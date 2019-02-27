@@ -76,6 +76,7 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginBottom="4dp"
                     android:src="@drawable/ic_dashboard_lock"
+                    android:visibility="gone"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent" />
             </android.support.constraint.ConstraintLayout>

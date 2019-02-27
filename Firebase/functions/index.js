@@ -135,7 +135,7 @@ function getBuildings(userToken, maxBuilding) {
         var DbReference = "/SmartDoorUser/" + userToken + "/Building"
 
         var buildingRef = admin.database().ref(DbReference);
-        buildingRef.on("value", function (snapshot) {
+        buildingRef.once("value", function (snapshot) {
 
             let result = []
             snapshot.forEach(function (childSnapshot) {
@@ -156,7 +156,7 @@ function getBuildingName(userToken, buildingId) {
         var DbReference = "/SmartDoorUser/" + userToken + "/Building"
 
         var buildingRef = admin.database().ref(DbReference);
-        buildingRef.on('value', function (snapshot) {
+        buildingRef.once('value', function (snapshot) {
 
             snapshot.forEach(function (childSnapshot) {
 
@@ -178,7 +178,7 @@ function setBuildingLockState(userToken, buildingId, buildingLockState) {
         var DbReference = "/SmartDoorUser/" + userToken + "/Building";
         var buildingRef = admin.database().ref(DbReference);
 
-        buildingRef.on('value', function (snapshot) {
+        buildingRef.once('value', function (snapshot) {
 
             snapshot.forEach(function (childSnapshot) {
 
@@ -202,7 +202,7 @@ function getHistory(userToken, maxHistory) {
         var DbReference = "/SmartDoorUser/" + userToken + "/History"
         var historyRef = admin.database().ref(DbReference);
 
-        historyRef.on("value", function (snapshot) {
+        historyRef.once("value", function (snapshot) {
 
             let result = []
             snapshot.forEach(function (childSnapshot) {

@@ -59,7 +59,6 @@ public class HistoryFragment extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 HistoryManager.fetchHistoryData(userToken);
                 pullToRefresh.setRefreshing(false);
             }

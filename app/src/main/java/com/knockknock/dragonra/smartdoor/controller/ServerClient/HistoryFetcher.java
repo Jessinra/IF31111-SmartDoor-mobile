@@ -17,7 +17,6 @@ public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult
     private WeakReference<RecyclerView> recyclerView;
 
     public HistoryFetcher(RecyclerView recyclerView) {
-        //set context variables if required
         this.recyclerView = new WeakReference<>(recyclerView);
     }
 
@@ -28,7 +27,6 @@ public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult
 
     @Override
     protected HistoryFetchResult doInBackground(String... params) {
-        // Create POST request to server
 
         SmartDoorHttpURLConnection connectionManager = new SmartDoorHttpURLConnection();
 

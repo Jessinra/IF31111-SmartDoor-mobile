@@ -132,17 +132,7 @@ function getTimestamp() {
   return new Promise(resolve => {
     var date = new Date().toLocaleString("en-US", {
       timeZone: "Asia/Jakarta"
-    }); // var hour = date.getHours();
-    // hour = (hour < 10 ? "0" : "") + hour;
-    // var min = date.getMinutes();
-    // min = (min < 10 ? "0" : "") + min;
-    // var year = date.getFullYear();
-    // var month = date.getMonth() + 1;
-    // month = (month < 10 ? "0" : "") + month;
-    // var day = date.getDate();
-    // day = (day < 10 ? "0" : "") + day;
-
-    console.log(date);
+    });
     resolve(date);
   }).catch(error => {
     console.log("getTimestamp error :" + error + "\n");
@@ -153,7 +143,7 @@ function getBuildings(userToken, maxBuilding) {
   return new Promise(resolve => {
     var DbReference = "/SmartDoorUser/" + userToken + "/Building";
     var buildingRef = admin.database().ref(DbReference);
-    buildingRef.on("value", function (snapshot) {
+    buildingRef.once("value", function (snapshot) {
       let result = [];
       snapshot.forEach(function (childSnapshot) {
         result.push(childSnapshot.val());
@@ -169,7 +159,7 @@ function getBuildingName(userToken, buildingId) {
   return new Promise(resolve => {
     var DbReference = "/SmartDoorUser/" + userToken + "/Building";
     var buildingRef = admin.database().ref(DbReference);
-    buildingRef.on('value', function (snapshot) {
+    buildingRef.once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         var building = childSnapshot.val();
 
@@ -187,7 +177,7 @@ function setBuildingLockState(userToken, buildingId, buildingLockState) {
   return new Promise(resolve => {
     var DbReference = "/SmartDoorUser/" + userToken + "/Building";
     var buildingRef = admin.database().ref(DbReference);
-    buildingRef.on('value', function (snapshot) {
+    buildingRef.once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         var building = childSnapshot.val();
 
@@ -208,7 +198,7 @@ function getHistory(userToken, maxHistory) {
   return new Promise(resolve => {
     var DbReference = "/SmartDoorUser/" + userToken + "/History";
     var historyRef = admin.database().ref(DbReference);
-    historyRef.on("value", function (snapshot) {
+    historyRef.once("value", function (snapshot) {
       let result = [];
       snapshot.forEach(function (childSnapshot) {
         result.push(childSnapshot.val());
