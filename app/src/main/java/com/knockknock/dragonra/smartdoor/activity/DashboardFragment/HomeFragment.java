@@ -18,11 +18,13 @@ import com.knockknock.dragonra.smartdoor.activity.LogoutActivity;
 import com.knockknock.dragonra.smartdoor.controller.Manager.DashboardManager;
 import com.knockknock.dragonra.smartdoor.controller.Manager.HistoryManager;
 
+import java.util.concurrent.Callable;
+
 public class HomeFragment extends Fragment implements View.OnClickListener, HomeDialogFragment.NoticeDialogListener {
 
     private HomeViewModel mViewModel;
     private View parentView;
-    private String userToken = getString(R.string.userToken);
+    private String userToken;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -41,12 +43,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         // TODO: Use the ViewModel
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         parentView = view;
+        userToken = getString(R.string.userToken);
+
         setupHomeViewOnClickListener(view);
         DashboardManager.fetchDashboard(view, userToken);
     }
@@ -99,14 +102,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         Log.d("HOME_FRAGMENT", "onDialogClick"
                 + Integer.toString(cardNumber) + " locked : " + Boolean.toString(isLocked));
 
-        if (isLocked) {
-            DashboardManager.changeLockState(userToken, Integer.toString(cardNumber), "locked");
-            HistoryManager.logHistory(userToken, Integer.toString(cardNumber), "locked");
-        } else {
-            DashboardManager.changeLockState(userToken, Integer.toString(cardNumber), "unlocked");
-            HistoryManager.logHistory(userToken, Integer.toString(cardNumber), "unlocked");
-        }
-        DashboardManager.fetchDashboard(parentView, userToken);
+        final String buildingId = Integer.toString(cardNumber);
+        final String lockState = (isLocked) ? "locked" : "unlocked";
+
+        Log.d("POST_REQUEST", "calling changeLockState");
+
+        DashboardManager.changeLockState(userToken, buildingId, lockState, new Callable<Void>() {
+            public Void call() {
+                Log.d("POST_REQUEST", "calling logHistory");
+
+                HistoryManager.logHistory(userToken, buildingId, lockState, new Callable<Void>() {
+                    public Void call() {
+
+                        Log.d("POST_REQUEST", "calling fetchDashboard");
+                        DashboardManager.fetchDashboard(parentView, userToken);
+                        return null;
+                    }
+                });
+                return null;
+            }
+        });
+
     }
 
     private void redirectGoogleSignOut() {

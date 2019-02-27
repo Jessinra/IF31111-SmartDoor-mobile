@@ -11,6 +11,7 @@ import com.knockknock.dragonra.smartdoor.model.HistoryFetchResult;
 import com.knockknock.dragonra.smartdoor.view.Adapter.HistoryPageAdapter;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.Callable;
 
 public class HistoryManager {
 
@@ -51,8 +52,8 @@ public class HistoryManager {
         recyclerView.setAdapter(historyViewAdapter);
     }
 
-    public static void logHistory(String userToken, String buildingId, String lockState) {
+    public static void logHistory(String userToken, String buildingId, String lockState, Callable callback) {
         Log.d("DASHBOARD_MANAGER", "changeLockState");
-        new HistoryLogger().execute("userToken", userToken, "buildingId", buildingId, "buildingLockState", lockState);
+        new HistoryLogger(userToken, buildingId, lockState, callback).execute();
     }
 }

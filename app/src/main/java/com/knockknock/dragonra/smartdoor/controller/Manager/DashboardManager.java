@@ -13,9 +13,16 @@ import com.knockknock.dragonra.smartdoor.model.DashboardBuildingRecord;
 import com.knockknock.dragonra.smartdoor.model.DashboardFetchResult;
 import com.knockknock.dragonra.smartdoor.view.Adapter.CardViewAdapter;
 
+import java.util.concurrent.Callable;
+
 public class DashboardManager {
 
     public static void fetchDashboard(View view, String userToken) {
+        Log.d("DASHBOARD_MANAGER", "fetchDashboard");
+        new DashboardFetcher(view).execute("userToken", userToken);
+    }
+
+    public static void fetchDashboard(View view, String userToken, Callable<Void> callback) {
         Log.d("DASHBOARD_MANAGER", "fetchDashboard");
         new DashboardFetcher(view).execute("userToken", userToken);
     }
@@ -47,8 +54,8 @@ public class DashboardManager {
         }
     }
 
-    public static void changeLockState(String userToken, String buildingId, String lockState) {
+    public static void changeLockState(String userToken, String buildingId, String lockState, Callable callback) {
         Log.d("DASHBOARD_MANAGER", "changeLockState");
-        new BuildingLockStateUpdater().execute("userToken", userToken, "buildingId", buildingId, "buildingLockState", lockState);
+        new BuildingLockStateUpdater(userToken, buildingId, lockState, callback).execute();
     }
 }

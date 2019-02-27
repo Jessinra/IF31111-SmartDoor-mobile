@@ -19,7 +19,7 @@ public class HistoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SwipeRefreshLayout pullToRefresh;
-    private String userToken = getString(R.string.userToken);
+    private String userToken;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -45,6 +45,8 @@ public class HistoryFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        userToken = getString(R.string.userToken);
 
         // Set up the history page
         RecyclerView recyclerView = view.findViewById(R.id.history_recycle_view);

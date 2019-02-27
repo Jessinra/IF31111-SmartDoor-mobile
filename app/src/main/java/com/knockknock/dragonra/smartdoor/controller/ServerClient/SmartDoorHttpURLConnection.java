@@ -1,6 +1,7 @@
 package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedReader;
@@ -43,6 +44,10 @@ public class SmartDoorHttpURLConnection {
         wr.writeBytes(postParams);
         wr.flush();
         wr.close();
+
+        Log.d("POST_REQUEST", "url : " + url);
+        Log.d("POST_REQUEST", "params : " + postParams);
+
 
         // Parse response
         return parseResponse(con);

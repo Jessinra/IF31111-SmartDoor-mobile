@@ -3,6 +3,7 @@ package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -38,6 +39,8 @@ public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult
         try {
             String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/history";
             String response = connectionManager.sendPost(fetchHistoryURL, postParams);
+
+            Log.d("POST_REQUEST", "response :" + response);
             return new Gson().fromJson(response, HistoryFetchResult.class);
 
         } catch (Exception e) {

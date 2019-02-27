@@ -1,6 +1,7 @@
 package com.knockknock.dragonra.smartdoor.controller.ServerClient;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
@@ -36,6 +37,8 @@ public class DashboardFetcher extends AsyncTask<String, String, DashboardFetchRe
         try {
             String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/dashboard";
             String response = connectionManager.sendPost(fetchHistoryURL, postParams);
+
+            Log.d("POST_REQUEST", "response :" + response);
             return new Gson().fromJson(response, DashboardFetchResult.class);
 
         } catch (Exception e) {

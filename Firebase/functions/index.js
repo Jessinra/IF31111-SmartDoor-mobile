@@ -43,14 +43,14 @@ exports.history = functions.https.onRequest((req, res) => {
 });
 
 exports.historyLogger = functions.https.onRequest((req, res) => {
-    return historyLogger(req);
+    return historyLogger(req, res);
 });
 
 exports.dashboardHandler = functions.https.onRequest((req, res) => {
-    return dashboardHandler(req);
+    return dashboardHandler(req, res);
 });
 
-async function dashboard(request, response){
+async function dashboard(request, response) {
     var maxBuilding = 10
 
     var userToken = request.body.userToken;
@@ -60,7 +60,7 @@ async function dashboard(request, response){
     response.send(message);
 }
 
-async function history(request, response){
+async function history(request, response) {
     let maxHistory = 50
 
     var userToken = request.body.userToken;
@@ -71,11 +71,11 @@ async function history(request, response){
     response.send(message)
 }
 
-async function historyLogger(request) {
+async function historyLogger(request, response) {
 
-    let userToken = req.body.userToken;
-    let buildingId = req.body.buildingId;
-    let buildingLockState = req.body.buildingLockState;
+    let userToken = request.body.userToken;
+    let buildingId = request.body.buildingId;
+    let buildingLockState = request.body.buildingLockState;
 
     let buildingName = await getBuildingName(userToken, buildingId);
     let timestamp = await getTimestamp()
@@ -87,55 +87,70 @@ async function historyLogger(request) {
     };
 
     let DbReference = "/SmartDoorUser/" + userToken + "/History"
-    return admin.database().ref(DbReference).push(historyRecord);
-};
+    admin.database().ref(DbReference).push(historyRecord);
 
-async function dashboardHandler(request) {
+    var message = {
+        "userToken": userToken,
+        "buildingId": buildingId,
+        "buildingLockState": buildingLockState
+    };
 
-    let userToken = req.body.userToken;
-    let buildingId = req.body.buildingId;
-    let buildingLockState = req.body.buildingLockState;
+    response.send(message);
+}
+
+async function dashboardHandler(request, response) {
+
+    let userToken = request.body.userToken;
+    let buildingId = request.body.buildingId;
+    let buildingLockState = request.body.buildingLockState;
 
     if (buildingLockState === "locked" || buildingLockState === "unlocked") {
         await setBuildingLockState(userToken, buildingId, buildingLockState);
     }
-    return;
-};
+
+    var message = {
+        "userToken": userToken,
+        "buildingId": buildingId,
+        "buildingLockState": buildingLockState
+    };
+    response.send(message);
+}
 
 
 function getTimestamp() {
     return new Promise(resolve => {
-        var date = new Date();
 
-        var hour = date.getHours();
-        hour = (hour < 10 ? "0" : "") + hour;
+        var date = new Date().toLocaleString("en-US", { timeZone: "Asia/Jakarta" });
+        // var hour = date.getHours();
+        // hour = (hour < 10 ? "0" : "") + hour;
 
-        var min = date.getMinutes();
-        min = (min < 10 ? "0" : "") + min;
+        // var min = date.getMinutes();
+        // min = (min < 10 ? "0" : "") + min;
 
-        var year = date.getFullYear();
+        // var year = date.getFullYear();
 
-        var month = date.getMonth() + 1;
-        month = (month < 10 ? "0" : "") + month;
+        // var month = date.getMonth() + 1;
+        // month = (month < 10 ? "0" : "") + month;
 
-        var day = date.getDate();
-        day = (day < 10 ? "0" : "") + day;
+        // var day = date.getDate();
+        // day = (day < 10 ? "0" : "") + day;
+        console.log(date);
 
-        resolve(year + ":" + month + ":" + day + "      " + hour + ":" + min);
+        resolve(date);
+
     })
-
         .catch((error) => {
             console.log("getTimestamp error :" + error + "\n");
         });
-};
+}
 
-function getBuildings(userToken, maxBuilding){
+function getBuildings(userToken, maxBuilding) {
     return new Promise(resolve => {
 
         var DbReference = "/SmartDoorUser/" + userToken + "/Building"
 
         var buildingRef = admin.database().ref(DbReference);
-        buildingRef.on("value", function(snapshot) {
+        buildingRef.on("value", function (snapshot) {
 
             let result = []
             snapshot.forEach(function (childSnapshot) {
@@ -145,10 +160,10 @@ function getBuildings(userToken, maxBuilding){
             resolve(result.slice(0, maxBuilding))
         });
     })
-    .catch((error) => {
-        console.log("getBuildings error : " + error + "\n");
-    })
-};
+        .catch((error) => {
+            console.log("getBuildings error : " + error + "\n");
+        })
+}
 
 function getBuildingName(userToken, buildingId) {
     return new Promise(resolve => {
@@ -167,10 +182,10 @@ function getBuildingName(userToken, buildingId) {
             });
         });
     })
-    .catch((error) => {
-        console.log("getBuildingName error : " + error + "\n");
-    })
-};
+        .catch((error) => {
+            console.log("getBuildingName error : " + error + "\n");
+        })
+}
 
 function setBuildingLockState(userToken, buildingId, buildingLockState) {
     return new Promise(resolve => {
@@ -191,18 +206,18 @@ function setBuildingLockState(userToken, buildingId, buildingLockState) {
             });
         });
     })
-    .catch((error) => {
-        console.log("setBuildingLockState error : " + error + "\n");
-    })
-};
+        .catch((error) => {
+            console.log("setBuildingLockState error : " + error + "\n");
+        })
+}
 
-function getHistory(userToken, maxHistory){
+function getHistory(userToken, maxHistory) {
     return new Promise(resolve => {
 
         var DbReference = "/SmartDoorUser/" + userToken + "/History"
         var historyRef = admin.database().ref(DbReference);
-        
-        historyRef.on("value", function(snapshot) {
+
+        historyRef.on("value", function (snapshot) {
 
             let result = []
             snapshot.forEach(function (childSnapshot) {
@@ -212,7 +227,7 @@ function getHistory(userToken, maxHistory){
             resolve(result.reverse().slice(0, maxHistory))
         });
     })
-    .catch((error) => {
-        console.log("getHistory error : " + error + "\n");
-    })
+        .catch((error) => {
+            console.log("getHistory error : " + error + "\n");
+        })
 }

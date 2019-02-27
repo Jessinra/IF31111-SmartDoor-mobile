@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 
-public class HistoryLogger extends AsyncTask<String, String, Void> {
+public class BuildingLockStateUpdater extends AsyncTask<String, String, Void> {
 
     private String userToken;
     private String buildingId;
     private String lockState;
     private Callable callback;
 
-    public HistoryLogger(String userToken, String buildingId, String lockState, Callable callback) {
+    public BuildingLockStateUpdater(String userToken, String buildingId, String lockState, Callable callback) {
         this.userToken = userToken;
         this.buildingId = buildingId;
         this.lockState = lockState;
@@ -38,12 +38,13 @@ public class HistoryLogger extends AsyncTask<String, String, Void> {
         postParams.add(new Pair<>("buildingId", buildingId));
         postParams.add(new Pair<>("buildingLockState", lockState));
 
-
         try {
-            String historyLoggerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/historyLogger";
-            String response = connectionManager.sendPost(historyLoggerURL, postParams);
+            String dashboardHandlerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/dashboardHandler";
+            String response = connectionManager.sendPost(dashboardHandlerURL, postParams);
 
             Log.d("POST_REQUEST", "response :" + response);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
