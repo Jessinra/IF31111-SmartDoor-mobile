@@ -11,25 +11,50 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
+exports.oldtestNotification = functions.https.onRequest((req, res) => {
+  // This registration token comes from the client FCM SDKs.
+  var adminToken = "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO";
+  var message = {
+    data: {
+      score: '850',
+      time: '2:45'
+    },
+    notification: {
+      title: "Notification title",
+      body: "Notification text content"
+    },
+    token: adminToken
+  }; // Send a message to the device corresponding to the provided
+  // registration token.
+
+  admin.messaging().send(message);
+  res.send("Message sent!");
+});
 exports.testNotification = functions.https.onRequest((req, res) => {
   // This registration token comes from the client FCM SDKs.
   var adminToken = ["edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt", "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO", "fiyO8hOTOkU:APA91bGs-DH-KbDwKCH0GhlAfcvlb6tvXQXcM-YJPnEV2OHzdBwlUSaaKCM0ZZZVXA11FEXfXUD8VuxSl6X6IxP0yeZA-y84MeWWSxW_wJbxHm2ZcQR6XKN5IqcJ3Fufv1UHs-A1GzeC", "e8L_9UiMyx4:APA91bGJkbHw8FW_KDjzPFCh97Kveoqr9z6IwL4Xc4ujPR9yPhWmK56ZU6hjBKsWZC5mv4aPHT9k6Ri37CLojxxPbCIErNDmZc8Uxo1C9U35Lmlj51PkqBvfmZxTCa55E_YNttYeUho4"];
   adminToken.forEach(function (userToken) {
-    var message = {
-      data: {
-        building: 'Whitehouse',
-        time: '19:45'
-      },
-      notification: {
-        title: "Hello !",
-        body: "Somebody is in front of your house"
-      },
-      token: userToken
-    };
-    admin.messaging().send(message);
+    try {
+      var message = {
+        data: {
+          building: 'Whitehouse',
+          time: '19:45'
+        },
+        notification: {
+          title: "Hello !",
+          body: "Somebody is in front of your house"
+        },
+        token: userToken
+      };
+      admin.messaging().send(message);
+    } catch (error) {
+      console.log("testNotification error : " + error + "\n");
+    }
   });
   res.send("Message sent!");
 });
+/* ======================================================================= */
+
 exports.dashboard = functions.https.onRequest((req, res) => {
   return dashboard(req, res);
 });
@@ -207,5 +232,73 @@ function getHistory(userToken, maxHistory) {
     });
   }).catch(error => {
     console.log("getHistory error : " + error + "\n");
+  });
+}
+/* ============================================================================ */
+
+
+exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
+  return bugLegendHistoryLogger(req, res);
+});
+exports.bugLegendHistory = functions.https.onRequest((req, res) => {
+  return bugLegendHistory(req, res);
+});
+
+function bugLegendHistoryLogger(_x9, _x10) {
+  return _bugLegendHistoryLogger.apply(this, arguments);
+}
+
+function _bugLegendHistoryLogger() {
+  _bugLegendHistoryLogger = _asyncToGenerator(function* (request, response) {
+    let name = request.query.name;
+    let score = request.query.score;
+    let timestamp = yield getTimestamp();
+    console.log(request.query);
+    let historyRecord = {
+      "name": name,
+      "score": score,
+      "timeStamp": timestamp
+    };
+    console.log(historyRecord);
+    let DbReference = "/BugLegend/History";
+    admin.database().ref(DbReference).push(historyRecord);
+    var message = {
+      "name": name,
+      "score": score,
+      "timeStamp": timestamp
+    };
+    response.send(message);
+  });
+  return _bugLegendHistoryLogger.apply(this, arguments);
+}
+
+function bugLegendHistory(_x11, _x12) {
+  return _bugLegendHistory.apply(this, arguments);
+}
+
+function _bugLegendHistory() {
+  _bugLegendHistory = _asyncToGenerator(function* (request, response) {
+    let maxHistory = 30;
+    let message = {
+      history: yield getBugLegendHistory(maxHistory)
+    };
+    response.send(message);
+  });
+  return _bugLegendHistory.apply(this, arguments);
+}
+
+function getBugLegendHistory(maxHistory) {
+  return new Promise(resolve => {
+    var DbReference = "/BugLegend/History";
+    var historyRef = admin.database().ref(DbReference);
+    historyRef.once("value", function (snapshot) {
+      let result = [];
+      snapshot.forEach(function (childSnapshot) {
+        result.push(childSnapshot.val());
+      });
+      resolve(result.reverse().slice(0, maxHistory));
+    });
+  }).catch(error => {
+    console.log("getBugLegendHistory error : " + error + "\n");
   });
 }

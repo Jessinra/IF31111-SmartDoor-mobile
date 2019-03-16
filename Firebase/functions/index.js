@@ -3,6 +3,28 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+exports.oldtestNotification = functions.https.onRequest((req, res) => {
+
+    // This registration token comes from the client FCM SDKs.
+    var adminToken = "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO";
+
+    var message = {
+        data: {
+            score: '850',
+            time: '2:45'
+        },
+        notification: {
+            title: "Notification title",
+            body: "Notification text content",
+        },
+        token: adminToken
+    };
+
+    // Send a message to the device corresponding to the provided
+    // registration token.
+    admin.messaging().send(message);
+    res.send("Message sent!");
+});
 
 exports.testNotification = functions.https.onRequest((req, res) => {
 
@@ -16,23 +38,30 @@ exports.testNotification = functions.https.onRequest((req, res) => {
 
     adminToken.forEach(function (userToken) {
 
-        var message = {
-            data: {
-                building: 'Whitehouse',
-                time: '19:45'
-            },
-            notification: {
-                title: "Hello !",
-                body: "Somebody is in front of your house",
-            },
-            token: userToken
-        };
-
-        admin.messaging().send(message);
+        try{
+            var message = {
+                data: {
+                    building: 'Whitehouse',
+                    time: '19:45'
+                },
+                notification: {
+                    title: "Hello !",
+                    body: "Somebody is in front of your house"
+                },
+                token: userToken
+            };
+    
+            admin.messaging().send(message);
+        }catch(error){
+            console.log("testNotification error : " + error + "\n");
+        }
+        
     });
 
     res.send("Message sent!");
 });
+
+/* ======================================================================= */
 
 exports.dashboard = functions.https.onRequest((req, res) => {
     return dashboard(req, res);
@@ -115,7 +144,6 @@ async function dashboardHandler(request, response) {
     };
     response.send(message);
 }
-
 
 function getTimestamp() {
     return new Promise(resolve => {
@@ -214,5 +242,69 @@ function getHistory(userToken, maxHistory) {
     })
         .catch((error) => {
             console.log("getHistory error : " + error + "\n");
+        })
+}
+
+/* ============================================================================ */
+
+exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
+    return bugLegendHistoryLogger(req, res);
+});
+
+exports.bugLegendHistory = functions.https.onRequest((req, res) => {
+    return bugLegendHistory(req, res);
+});
+
+async function bugLegendHistoryLogger(request, response) {
+
+    let name = request.query.name;
+    let score = request.query.score;
+    let timestamp = await getTimestamp();
+
+    let historyRecord = {
+        "name": name,
+        "score": score,
+        "timeStamp": timestamp
+    };
+
+    let DbReference = "/BugLegend/History"
+    admin.database().ref(DbReference).push(historyRecord);
+
+    var message = {
+        "name": name,
+        "score": score,
+        "timeStamp": timestamp
+    };
+
+    response.send(message);
+}
+
+async function bugLegendHistory(request, response) {
+    let maxHistory = 30
+
+    let message = {
+        history: await getBugLegendHistory(maxHistory)
+    };
+    response.send(message)
+}
+
+function getBugLegendHistory(maxHistory) {
+    return new Promise(resolve => {
+
+        var DbReference = "/BugLegend/History"
+        var historyRef = admin.database().ref(DbReference);
+
+        historyRef.once("value", function (snapshot) {
+
+            let result = []
+            snapshot.forEach(function (childSnapshot) {
+                result.push(childSnapshot.val())
+            });
+
+            resolve(result.reverse().slice(0, maxHistory))
+        });
+    })
+        .catch((error) => {
+            console.log("getBugLegendHistory error : " + error + "\n");
         })
 }
