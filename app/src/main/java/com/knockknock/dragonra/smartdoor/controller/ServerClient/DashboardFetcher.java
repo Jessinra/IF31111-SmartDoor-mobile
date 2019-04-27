@@ -32,9 +32,10 @@ public class DashboardFetcher extends AsyncTask<String, String, DashboardFetchRe
 
         ArrayList<Pair<String, String>> postParams = new ArrayList<>();
         postParams.add(new Pair<>(params[0], params[1]));
+        postParams.add(new Pair<>("secretCode", "seara"));
 
         try {
-            String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/dashboard";
+            String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/newDashboard";
             String response = connectionManager.sendPost(fetchHistoryURL, postParams);
 
             return new Gson().fromJson(response, DashboardFetchResult.class);

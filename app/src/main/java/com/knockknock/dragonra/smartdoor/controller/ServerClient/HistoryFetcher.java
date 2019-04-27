@@ -32,9 +32,11 @@ public class HistoryFetcher extends AsyncTask<String, String, HistoryFetchResult
 
         ArrayList<Pair<String, String>> postParams = new ArrayList<>();
         postParams.add(new Pair<>(params[0], params[1]));
+        postParams.add(new Pair<>("secretCode", "seara"));
+
 
         try {
-            String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/history";
+            String fetchHistoryURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/newHistory";
             String response = connectionManager.sendPost(fetchHistoryURL, postParams);
 
             return new Gson().fromJson(response, HistoryFetchResult.class);

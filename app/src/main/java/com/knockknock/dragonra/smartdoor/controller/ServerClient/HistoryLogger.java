@@ -33,9 +33,10 @@ public class HistoryLogger extends AsyncTask<String, String, Void> {
         postParams.add(new Pair<>("userToken", userToken));
         postParams.add(new Pair<>("buildingId", buildingId));
         postParams.add(new Pair<>("buildingLockState", lockState));
+        postParams.add(new Pair<>("secretCode", "seara"));
 
         try {
-            String historyLoggerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/historyLogger";
+            String historyLoggerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/newHistoryLogger";
             String response = connectionManager.sendPost(historyLoggerURL, postParams);
         } catch (Exception e) {
             e.printStackTrace();

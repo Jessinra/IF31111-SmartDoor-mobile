@@ -11,28 +11,9 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-exports.oldtestNotification = functions.https.onRequest((req, res) => {
+exports.newPushNotification = functions.https.onRequest((req, res) => {
   // This registration token comes from the client FCM SDKs.
-  var adminToken = "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO";
-  var message = {
-    data: {
-      score: '850',
-      time: '2:45'
-    },
-    notification: {
-      title: "Notification title",
-      body: "Notification text content"
-    },
-    token: adminToken
-  }; // Send a message to the device corresponding to the provided
-  // registration token.
-
-  admin.messaging().send(message);
-  res.send("Message sent!");
-});
-exports.testNotification = functions.https.onRequest((req, res) => {
-  // This registration token comes from the client FCM SDKs.
-  var adminToken = ["edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt", "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO", "fiyO8hOTOkU:APA91bGs-DH-KbDwKCH0GhlAfcvlb6tvXQXcM-YJPnEV2OHzdBwlUSaaKCM0ZZZVXA11FEXfXUD8VuxSl6X6IxP0yeZA-y84MeWWSxW_wJbxHm2ZcQR6XKN5IqcJ3Fufv1UHs-A1GzeC", "e8L_9UiMyx4:APA91bGJkbHw8FW_KDjzPFCh97Kveoqr9z6IwL4Xc4ujPR9yPhWmK56ZU6hjBKsWZC5mv4aPHT9k6Ri37CLojxxPbCIErNDmZc8Uxo1C9U35Lmlj51PkqBvfmZxTCa55E_YNttYeUho4"];
+  var adminToken = ["eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O", "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5"];
   adminToken.forEach(function (userToken) {
     try {
       var message = {
@@ -47,33 +28,117 @@ exports.testNotification = functions.https.onRequest((req, res) => {
         token: userToken
       };
       admin.messaging().send(message);
+      res.send("Message sent!");
     } catch (error) {
       console.log("testNotification error : " + error + "\n");
+      res.send("Message not sent! Update the key I think");
     }
   });
-  res.send("Message sent!");
 });
-/* ======================================================================= */
 
-exports.dashboard = functions.https.onRequest((req, res) => {
+function tokenValidReport() {
+  return _tokenValidReport.apply(this, arguments);
+}
+
+function _tokenValidReport() {
+  _tokenValidReport = _asyncToGenerator(function* () {
+    var adminToken = ["eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O", "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5"];
+    adminToken.forEach(function (userToken) {
+      try {
+        var message = {
+          notification: {
+            title: "Hi, token still valid :) !"
+          },
+          token: userToken
+        };
+        admin.messaging().send(message);
+      } catch (error) {
+        console.log("testNotification error : " + error + "\n");
+        console.log("Message not sent! Update the key I think");
+      }
+    });
+  });
+  return _tokenValidReport.apply(this, arguments);
+}
+
+function checkForSpy(_x) {
+  return _checkForSpy.apply(this, arguments);
+}
+
+function _checkForSpy() {
+  _checkForSpy = _asyncToGenerator(function* (request) {
+    try {
+      if (request.body.secretCode !== "seara") {
+        spyReport();
+      }
+    } catch (error) {
+      spyReport();
+    }
+  });
+  return _checkForSpy.apply(this, arguments);
+}
+
+function spyReport() {
+  return _spyReport.apply(this, arguments);
+}
+/* ======================================================================= */
+// exports.dashboard = functions.https.onRequest((req, res) => {
+//     tokenValidReport();
+//     return dashboard(req, res);
+// });
+// exports.history = functions.https.onRequest((req, res) => {
+//     return history(req, res);
+// });
+// exports.historyLogger = functions.https.onRequest((req, res) => {
+//     return historyLogger(req, res);
+// });
+// exports.dashboardHandler = functions.https.onRequest((req, res) => {
+//     return dashboardHandler(req, res);
+// });
+
+
+function _spyReport() {
+  _spyReport = _asyncToGenerator(function* () {
+    var adminToken = ["eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O", "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5"];
+    adminToken.forEach(function (userToken) {
+      try {
+        var message = {
+          notification: {
+            title: "Noticed someone !"
+          },
+          token: userToken
+        };
+        admin.messaging().send(message);
+      } catch (error) {
+        console.log("testNotification error : " + error + "\n");
+        console.log("Message not sent! Update the key I think");
+      }
+    });
+  });
+  return _spyReport.apply(this, arguments);
+}
+
+exports.newDashboard = functions.https.onRequest((req, res) => {
+  tokenValidReport();
   return dashboard(req, res);
 });
-exports.history = functions.https.onRequest((req, res) => {
+exports.newHistory = functions.https.onRequest((req, res) => {
   return history(req, res);
 });
-exports.historyLogger = functions.https.onRequest((req, res) => {
+exports.newHistoryLogger = functions.https.onRequest((req, res) => {
   return historyLogger(req, res);
 });
-exports.dashboardHandler = functions.https.onRequest((req, res) => {
+exports.newDashboardHandler = functions.https.onRequest((req, res) => {
   return dashboardHandler(req, res);
 });
 
-function dashboard(_x, _x2) {
+function dashboard(_x2, _x3) {
   return _dashboard.apply(this, arguments);
 }
 
 function _dashboard() {
   _dashboard = _asyncToGenerator(function* (request, response) {
+    checkForSpy(request);
     var maxBuilding = 10;
     var userToken = request.body.userToken;
     var message = {
@@ -84,12 +149,13 @@ function _dashboard() {
   return _dashboard.apply(this, arguments);
 }
 
-function history(_x3, _x4) {
+function history(_x4, _x5) {
   return _history.apply(this, arguments);
 }
 
 function _history() {
   _history = _asyncToGenerator(function* (request, response) {
+    checkForSpy(request);
     let maxHistory = 50;
     var userToken = request.body.userToken;
     let message = {
@@ -101,12 +167,13 @@ function _history() {
   return _history.apply(this, arguments);
 }
 
-function historyLogger(_x5, _x6) {
+function historyLogger(_x6, _x7) {
   return _historyLogger.apply(this, arguments);
 }
 
 function _historyLogger() {
   _historyLogger = _asyncToGenerator(function* (request, response) {
+    checkForSpy(request);
     let userToken = request.body.userToken;
     let buildingId = request.body.buildingId;
     let buildingLockState = request.body.buildingLockState;
@@ -129,12 +196,13 @@ function _historyLogger() {
   return _historyLogger.apply(this, arguments);
 }
 
-function dashboardHandler(_x7, _x8) {
+function dashboardHandler(_x8, _x9) {
   return _dashboardHandler.apply(this, arguments);
 }
 
 function _dashboardHandler() {
   _dashboardHandler = _asyncToGenerator(function* (request, response) {
+    checkForSpy(request);
     let userToken = request.body.userToken;
     let buildingId = request.body.buildingId;
     let buildingLockState = request.body.buildingLockState;
@@ -235,70 +303,140 @@ function getHistory(userToken, maxHistory) {
   });
 }
 /* ============================================================================ */
+// exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
+//     return bugLegendHistoryLogger(req, res);
+// });
+// exports.bugLegendHistory = functions.https.onRequest((req, res) => {
+//     return bugLegendHistory(req, res);
+// });
+// async function bugLegendHistoryLogger(request, response) {
+//     let name = request.query.name;
+//     let score = request.query.score;
+//     let timestamp = await getTimestamp();
+//     let historyRecord = {
+//         "name": name,
+//         "score": score,
+//         "timeStamp": timestamp
+//     };
+//     let DbReference = "/BugLegend/History"
+//     admin.database().ref(DbReference).push(historyRecord);
+//     var message = {
+//         "name": name,
+//         "score": score,
+//         "timeStamp": timestamp
+//     };
+//     response.send(message);
+// }
+// async function bugLegendHistory(request, response) {
+//     let maxHistory = 30
+//     let message = {
+//         history: await getBugLegendHistory(maxHistory)
+//     };
+//     response.send(message)
+// }
+// function getBugLegendHistory(maxHistory) {
+//     return new Promise(resolve => {
+//         var DbReference = "/BugLegend/History"
+//         var historyRef = admin.database().ref(DbReference);
+//         historyRef.once("value", function (snapshot) {
+//             let result = []
+//             snapshot.forEach(function (childSnapshot) {
+//                 result.push(childSnapshot.val())
+//             });
+//             resolve(result.reverse().slice(0, maxHistory))
+//         });
+//     })
+//         .catch((error) => {
+//             console.log("getBugLegendHistory error : " + error + "\n");
+//         })
+// }
+
+/* ============================================================================ */
 
 
-exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
-  return bugLegendHistoryLogger(req, res);
+exports.arduinoHandler = functions.https.onRequest((req, res) => {
+  return arduinoDashboard(req, res);
 });
-exports.bugLegendHistory = functions.https.onRequest((req, res) => {
-  return bugLegendHistory(req, res);
-});
 
-function bugLegendHistoryLogger(_x9, _x10) {
-  return _bugLegendHistoryLogger.apply(this, arguments);
+function arduinoDashboard(_x10, _x11) {
+  return _arduinoDashboard.apply(this, arguments);
 }
 
-function _bugLegendHistoryLogger() {
-  _bugLegendHistoryLogger = _asyncToGenerator(function* (request, response) {
-    let name = request.query.name;
-    let score = request.query.score;
-    let timestamp = yield getTimestamp();
-    console.log(request.query);
-    let historyRecord = {
-      "name": name,
-      "score": score,
-      "timeStamp": timestamp
-    };
-    console.log(historyRecord);
-    let DbReference = "/BugLegend/History";
-    admin.database().ref(DbReference).push(historyRecord);
-    var message = {
-      "name": name,
-      "score": score,
-      "timeStamp": timestamp
-    };
+function _arduinoDashboard() {
+  _arduinoDashboard = _asyncToGenerator(function* (request, response) {
+    var userToken = "1234512345";
+    var buildingId = "0";
+    var message = yield getArduinoState(userToken, buildingId);
     response.send(message);
   });
-  return _bugLegendHistoryLogger.apply(this, arguments);
+  return _arduinoDashboard.apply(this, arguments);
 }
 
-function bugLegendHistory(_x11, _x12) {
-  return _bugLegendHistory.apply(this, arguments);
-}
-
-function _bugLegendHistory() {
-  _bugLegendHistory = _asyncToGenerator(function* (request, response) {
-    let maxHistory = 30;
-    let message = {
-      history: yield getBugLegendHistory(maxHistory)
-    };
-    response.send(message);
-  });
-  return _bugLegendHistory.apply(this, arguments);
-}
-
-function getBugLegendHistory(maxHistory) {
+function getArduinoState(userToken, buildingId) {
   return new Promise(resolve => {
-    var DbReference = "/BugLegend/History";
-    var historyRef = admin.database().ref(DbReference);
-    historyRef.once("value", function (snapshot) {
-      let result = [];
-      snapshot.forEach(function (childSnapshot) {
-        result.push(childSnapshot.val());
-      });
-      resolve(result.reverse().slice(0, maxHistory));
+    var DbReference = "/SmartDoorUser/" + userToken + "/Building/" + buildingId;
+    var buildingRef = admin.database().ref(DbReference);
+    buildingRef.once('value', function (snapshot) {
+      resolve(snapshot.val()["buildingLockState"]);
     });
   }).catch(error => {
-    console.log("getBugLegendHistory error : " + error + "\n");
+    console.log("getBuildings error : " + error + "\n");
   });
+}
+/* hardcoded GET request to change state */
+
+
+exports.arduinoHistoryLogLock = functions.https.onRequest((req, res) => {
+  return arduinoHistoryLogger(req, res, "locked");
+});
+exports.arduinoHistoryLogUnlock = functions.https.onRequest((req, res) => {
+  return arduinoHistoryLogger(req, res, "unlocked");
+});
+exports.arduinoLock = functions.https.onRequest((req, res) => {
+  return arduinoChangeLockState(req, res, "locked");
+});
+exports.arduinoUnlock = functions.https.onRequest((req, res) => {
+  return arduinoChangeLockState(req, res, "unlocked");
+});
+
+function arduinoHistoryLogger(_x12, _x13, _x14) {
+  return _arduinoHistoryLogger.apply(this, arguments);
+}
+
+function _arduinoHistoryLogger() {
+  _arduinoHistoryLogger = _asyncToGenerator(function* (request, response, lockState) {
+    let userToken = "1234512345";
+    let buildingId = "1";
+    let buildingLockState = lockState;
+    let buildingName = yield getBuildingName(userToken, buildingId);
+    let timestamp = yield getTimestamp();
+    let historyRecord = {
+      "buildingLockState": buildingLockState,
+      "buildingName": buildingName,
+      "timeStamp": timestamp
+    };
+    let DbReference = "/SmartDoorUser/" + userToken + "/History";
+    admin.database().ref(DbReference).push(historyRecord);
+    response.send("ok");
+  });
+  return _arduinoHistoryLogger.apply(this, arguments);
+}
+
+function arduinoChangeLockState(_x15, _x16, _x17) {
+  return _arduinoChangeLockState.apply(this, arguments);
+}
+
+function _arduinoChangeLockState() {
+  _arduinoChangeLockState = _asyncToGenerator(function* (request, response, lockState) {
+    let userToken = "1234512345";
+    let buildingId = "1";
+    let buildingLockState = lockState;
+
+    if (buildingLockState === "locked" || buildingLockState === "unlocked") {
+      yield setBuildingLockState(userToken, buildingId, buildingLockState);
+    }
+
+    response.send("ok");
+  });
+  return _arduinoChangeLockState.apply(this, arguments);
 }

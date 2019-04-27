@@ -3,42 +3,17 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-exports.oldtestNotification = functions.https.onRequest((req, res) => {
-
-    // This registration token comes from the client FCM SDKs.
-    var adminToken = "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO";
-
-    var message = {
-        data: {
-            score: '850',
-            time: '2:45'
-        },
-        notification: {
-            title: "Notification title",
-            body: "Notification text content",
-        },
-        token: adminToken
-    };
-
-    // Send a message to the device corresponding to the provided
-    // registration token.
-    admin.messaging().send(message);
-    res.send("Message sent!");
-});
-
-exports.testNotification = functions.https.onRequest((req, res) => {
+exports.newPushNotification = functions.https.onRequest((req, res) => {
 
     // This registration token comes from the client FCM SDKs.
     var adminToken = [
-        "edf7Q39Bggw:APA91bFv8WgABi-cMXgqGOPbxhVF_oPkGQJsD3Cc9vDbWind-84RrDqqv-U_AKRmLXw4Smdi9Hd6qJE6DmnXD0qNPN4mjM8_9vBukLa7MIUN38zGj4psINJH3Uqi1R0NJxr-N-Dw1XKt",
-        "dRahuTn6Xjk:APA91bF9oAMzPol_GENMtsP8JQh9hpahCfu-1MeRYFOrqC7QCREuSq9RSU39DtdFH4e9THb81BzoWX38T_hGO_mKQ1lYmxX4VePSe1f_8CPmHO4fDR6DRRuZnWEKYveB3YWOXZ0LrHZO",
-        "fiyO8hOTOkU:APA91bGs-DH-KbDwKCH0GhlAfcvlb6tvXQXcM-YJPnEV2OHzdBwlUSaaKCM0ZZZVXA11FEXfXUD8VuxSl6X6IxP0yeZA-y84MeWWSxW_wJbxHm2ZcQR6XKN5IqcJ3Fufv1UHs-A1GzeC",
-        "e8L_9UiMyx4:APA91bGJkbHw8FW_KDjzPFCh97Kveoqr9z6IwL4Xc4ujPR9yPhWmK56ZU6hjBKsWZC5mv4aPHT9k6Ri37CLojxxPbCIErNDmZc8Uxo1C9U35Lmlj51PkqBvfmZxTCa55E_YNttYeUho4"
+        "eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O",
+        "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5",
     ];
 
     adminToken.forEach(function (userToken) {
 
-        try{
+        try {
             var message = {
                 data: {
                     building: 'Whitehouse',
@@ -50,36 +25,120 @@ exports.testNotification = functions.https.onRequest((req, res) => {
                 },
                 token: userToken
             };
-    
-            admin.messaging().send(message);
-        }catch(error){
-            console.log("testNotification error : " + error + "\n");
-        }
-        
-    });
 
-    res.send("Message sent!");
+            admin.messaging().send(message);
+            res.send("Message sent!");
+
+        } catch (error) {
+            console.log("testNotification error : " + error + "\n");
+            res.send("Message not sent! Update the key I think");
+        }
+    });
 });
+
+async function tokenValidReport(){
+
+    var adminToken = [
+        "eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O",
+        "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5",
+    ];
+
+    adminToken.forEach(function (userToken) {
+
+        try {
+            var message = {
+                notification: {
+                    title: "Hi, token still valid :) !",
+                },
+                token: userToken
+            };
+
+            admin.messaging().send(message);
+
+        } catch (error) {
+            console.log("testNotification error : " + error + "\n");
+            console.log("Message not sent! Update the key I think");
+        }
+    });
+}
+
+async function checkForSpy(request){
+
+    try{
+        if(request.body.secretCode !== "seara"){
+            spyReport();
+        }
+    }
+    catch(error){
+        spyReport();
+    }
+}
+
+async function spyReport(){
+
+    var adminToken = [
+        "eUZWH1Z4pmU:APA91bEl73Gx9JableWtesfq1Da4BSHREqZZu96Wp_gPZ58gy_0gfRhHhKYyRZ814cvLTz5nIHWjhVvqua-vjyM-U6C6HpiONLULqWX8DEH4--T03SEAm942MDmJIgHkKvG726Rz9F8O",
+        "cscJ-BNoAU4:APA91bHxiVaUtu9f6WHU5MrLgbeLsxtsCiv-TAEK3_g2uKRwW0ypcqpWkzdLrBDtfOdC-EmH_W3VLhYOavU5s3W_OyY-RJMblIu1RBkC4DXKXr5Q5Gf-4NmGrJnLZuG3mSnkKM64Ysm5",
+    ];
+
+    adminToken.forEach(function (userToken) {
+
+        try {
+            var message = {
+                notification: {
+                    title: "Noticed someone !",
+                },
+                token: userToken
+            };
+
+            admin.messaging().send(message);
+
+        } catch (error) {
+            console.log("testNotification error : " + error + "\n");
+            console.log("Message not sent! Update the key I think");
+        }
+    });
+}
+
 
 /* ======================================================================= */
 
-exports.dashboard = functions.https.onRequest((req, res) => {
+// exports.dashboard = functions.https.onRequest((req, res) => {
+//     tokenValidReport();
+//     return dashboard(req, res);
+// });
+
+// exports.history = functions.https.onRequest((req, res) => {
+//     return history(req, res);
+// });
+
+// exports.historyLogger = functions.https.onRequest((req, res) => {
+//     return historyLogger(req, res);
+// });
+
+// exports.dashboardHandler = functions.https.onRequest((req, res) => {
+//     return dashboardHandler(req, res);
+// });
+
+exports.newDashboard = functions.https.onRequest((req, res) => {
+    tokenValidReport();
     return dashboard(req, res);
 });
 
-exports.history = functions.https.onRequest((req, res) => {
+exports.newHistory = functions.https.onRequest((req, res) => {
     return history(req, res);
 });
 
-exports.historyLogger = functions.https.onRequest((req, res) => {
+exports.newHistoryLogger = functions.https.onRequest((req, res) => {
     return historyLogger(req, res);
 });
 
-exports.dashboardHandler = functions.https.onRequest((req, res) => {
+exports.newDashboardHandler = functions.https.onRequest((req, res) => {
     return dashboardHandler(req, res);
 });
 
 async function dashboard(request, response) {
+    checkForSpy(request);
     var maxBuilding = 10
 
     var userToken = request.body.userToken;
@@ -90,6 +149,7 @@ async function dashboard(request, response) {
 }
 
 async function history(request, response) {
+    checkForSpy(request);
     let maxHistory = 50
 
     var userToken = request.body.userToken;
@@ -101,6 +161,7 @@ async function history(request, response) {
 }
 
 async function historyLogger(request, response) {
+    checkForSpy(request);
 
     let userToken = request.body.userToken;
     let buildingId = request.body.buildingId;
@@ -128,6 +189,7 @@ async function historyLogger(request, response) {
 }
 
 async function dashboardHandler(request, response) {
+    checkForSpy(request);
 
     let userToken = request.body.userToken;
     let buildingId = request.body.buildingId;
@@ -247,64 +309,145 @@ function getHistory(userToken, maxHistory) {
 
 /* ============================================================================ */
 
-exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
-    return bugLegendHistoryLogger(req, res);
+// exports.bugLegendHistoryLogger = functions.https.onRequest((req, res) => {
+//     return bugLegendHistoryLogger(req, res);
+// });
+
+// exports.bugLegendHistory = functions.https.onRequest((req, res) => {
+//     return bugLegendHistory(req, res);
+// });
+
+// async function bugLegendHistoryLogger(request, response) {
+
+//     let name = request.query.name;
+//     let score = request.query.score;
+//     let timestamp = await getTimestamp();
+
+//     let historyRecord = {
+//         "name": name,
+//         "score": score,
+//         "timeStamp": timestamp
+//     };
+
+//     let DbReference = "/BugLegend/History"
+//     admin.database().ref(DbReference).push(historyRecord);
+
+//     var message = {
+//         "name": name,
+//         "score": score,
+//         "timeStamp": timestamp
+//     };
+
+//     response.send(message);
+// }
+
+// async function bugLegendHistory(request, response) {
+//     let maxHistory = 30
+
+//     let message = {
+//         history: await getBugLegendHistory(maxHistory)
+//     };
+//     response.send(message)
+// }
+
+// function getBugLegendHistory(maxHistory) {
+//     return new Promise(resolve => {
+
+//         var DbReference = "/BugLegend/History"
+//         var historyRef = admin.database().ref(DbReference);
+
+//         historyRef.once("value", function (snapshot) {
+
+//             let result = []
+//             snapshot.forEach(function (childSnapshot) {
+//                 result.push(childSnapshot.val())
+//             });
+
+//             resolve(result.reverse().slice(0, maxHistory))
+//         });
+//     })
+//         .catch((error) => {
+//             console.log("getBugLegendHistory error : " + error + "\n");
+//         })
+// }
+
+/* ============================================================================ */
+
+exports.arduinoHandler = functions.https.onRequest((req, res) => {
+    return arduinoDashboard(req, res);
 });
 
-exports.bugLegendHistory = functions.https.onRequest((req, res) => {
-    return bugLegendHistory(req, res);
-});
+async function arduinoDashboard(request, response) {
 
-async function bugLegendHistoryLogger(request, response) {
+    var userToken = "1234512345";
+    var buildingId = "0";
 
-    let name = request.query.name;
-    let score = request.query.score;
-    let timestamp = await getTimestamp();
-
-    let historyRecord = {
-        "name": name,
-        "score": score,
-        "timeStamp": timestamp
-    };
-
-    let DbReference = "/BugLegend/History"
-    admin.database().ref(DbReference).push(historyRecord);
-
-    var message = {
-        "name": name,
-        "score": score,
-        "timeStamp": timestamp
-    };
-
+    var message = await getArduinoState(userToken, buildingId);
     response.send(message);
 }
 
-async function bugLegendHistory(request, response) {
-    let maxHistory = 30
-
-    let message = {
-        history: await getBugLegendHistory(maxHistory)
-    };
-    response.send(message)
-}
-
-function getBugLegendHistory(maxHistory) {
+function getArduinoState(userToken, buildingId) {
     return new Promise(resolve => {
 
-        var DbReference = "/BugLegend/History"
-        var historyRef = admin.database().ref(DbReference);
+        var DbReference = "/SmartDoorUser/" + userToken + "/Building/" + buildingId;
+        var buildingRef = admin.database().ref(DbReference);
 
-        historyRef.once("value", function (snapshot) {
-
-            let result = []
-            snapshot.forEach(function (childSnapshot) {
-                result.push(childSnapshot.val())
-            });
-
-            resolve(result.reverse().slice(0, maxHistory))
+        buildingRef.once('value', function (snapshot) {
+            resolve(snapshot.val()["buildingLockState"]);
         });
     })
         .catch((error) => {
-            console.log("getBugLegendHistory error : " + error + "\n");
+            console.log("getBuildings error : " + error + "\n");
         })
+}
+
+
+/* hardcoded GET request to change state */
+exports.arduinoHistoryLogLock = functions.https.onRequest((req, res) => {
+    return arduinoHistoryLogger(req, res, "locked");
+});
+
+exports.arduinoHistoryLogUnlock = functions.https.onRequest((req, res) => {
+    return arduinoHistoryLogger(req, res, "unlocked");
+});
+
+exports.arduinoLock = functions.https.onRequest((req, res) => {
+    return arduinoChangeLockState(req, res, "locked");
+});
+
+exports.arduinoUnlock = functions.https.onRequest((req, res) => {
+    return arduinoChangeLockState(req, res,"unlocked");
+});
+
+async function arduinoHistoryLogger(request, response, lockState) {
+
+    let userToken = "1234512345";
+    let buildingId = "1";
+    let buildingLockState = lockState;
+
+    let buildingName = await getBuildingName(userToken, buildingId);
+    let timestamp = await getTimestamp()
+
+    let historyRecord = {
+        "buildingLockState": buildingLockState,
+        "buildingName": buildingName,
+        "timeStamp": timestamp
+    };
+
+    let DbReference = "/SmartDoorUser/" + userToken + "/History"
+    admin.database().ref(DbReference).push(historyRecord);
+
+    response.send("ok");
+}
+
+async function arduinoChangeLockState(request, response, lockState) {
+
+    let userToken = "1234512345";
+    let buildingId = "1";
+    let buildingLockState = lockState;
+
+    if (buildingLockState === "locked" || buildingLockState === "unlocked") {
+        await setBuildingLockState(userToken, buildingId, buildingLockState);
+    }
+    response.send("ok");
 }

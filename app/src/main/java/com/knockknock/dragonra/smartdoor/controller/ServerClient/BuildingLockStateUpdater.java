@@ -36,9 +36,10 @@ public class BuildingLockStateUpdater extends AsyncTask<String, String, Void> {
         postParams.add(new Pair<>("userToken", userToken));
         postParams.add(new Pair<>("buildingId", buildingId));
         postParams.add(new Pair<>("buildingLockState", lockState));
+        postParams.add(new Pair<>("secretCode", "seara"));
 
         try {
-            String dashboardHandlerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/dashboardHandler";
+            String dashboardHandlerURL = "https://us-central1-if3111-smartdoor.cloudfunctions.net/newDashboardHandler";
             String response = connectionManager.sendPost(dashboardHandlerURL, postParams);
 
         } catch (Exception e) {
